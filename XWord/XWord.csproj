@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1336BFB9-BB99-402A-8BE3-E7CD2751CE04}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XWord</RootNamespace>
+    <AssemblyName>XWord</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>ext_depends\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="soox\common\XFont.cs" />
+    <Compile Include="soox\common\XPoint.cs" />
+    <Compile Include="soox\common\XSize.cs" />
+    <Compile Include="soox\metrics\FontMetricItem.cs" />
+    <Compile Include="soox\metrics\FontMetrics.cs" />
+    <Compile Include="soox\ooxml\core\Block.cs" />
+    <Compile Include="soox\ooxml\core\IBlock.cs" />
+    <Compile Include="soox\ooxml\core\IEntity.cs" />
+    <Compile Include="soox\ooxml\core\IScope.cs" />
+    <Compile Include="soox\ooxml\core\IStyle.cs" />
+    <Compile Include="soox\ooxml\core\OoxmlElement.cs" />
+    <Compile Include="soox\ooxml\core\OoxmlProperty.cs" />
+    <Compile Include="soox\ooxml\core\OoxmlStyle.cs" />
+    <Compile Include="soox\ooxml\core\UnDefTag.cs" />
+    <Compile Include="soox\ooxml\elements\b.cs" />
+    <Compile Include="soox\ooxml\elements\Body.cs" />
+    <Compile Include="soox\ooxml\elements\color.cs" />
+    <Compile Include="soox\ooxml\elements\Document.cs" />
+    <Compile Include="soox\serialize\ISerializable.cs" />
+    <Compile Include="soox\serialize\JsonSerializeAttribute.cs" />
+    <Compile Include="soox\user\XLineBlock.cs" />
+    <Compile Include="soox\user\XLineBlockCollection.cs" />
+    <Compile Include="soox\user\XPage2.cs" />
+    <Compile Include="soox\serialize\JsonSerializer.cs" />
+    <Compile Include="soox\xps\elements\FixedDocument.cs" />
+    <Compile Include="soox\ooxml\elements\hyperlink.cs" />
+    <Compile Include="soox\ooxml\elements\jc.cs" />
+    <Compile Include="soox\ooxml\elements\kern.cs" />
+    <Compile Include="soox\ooxml\elements\noProof.cs" />
+    <Compile Include="soox\ooxml\elements\Paragraph.cs" />
+    <Compile Include="soox\ooxml\elements\pPr.cs" />
+    <Compile Include="soox\ooxml\elements\pStyle.cs" />
+    <Compile Include="soox\ooxml\elements\rFonts.cs" />
+    <Compile Include="soox\ooxml\elements\rPr.cs" />
+    <Compile Include="soox\ooxml\elements\rStyle.cs" />
+    <Compile Include="soox\ooxml\elements\Run.cs" />
+    <Compile Include="soox\ooxml\elements\sectPr.cs" />
+    <Compile Include="soox\ooxml\elements\spacing.cs" />
+    <Compile Include="soox\ooxml\elements\sz.cs" />
+    <Compile Include="soox\ooxml\elements\szCs.cs" />
+    <Compile Include="soox\ooxml\elements\tab.cs" />
+    <Compile Include="soox\ooxml\elements\Table.cs" />
+    <Compile Include="soox\ooxml\elements\tabs.cs" />
+    <Compile Include="soox\ooxml\elements\Text.cs" />
+    <Compile Include="soox\ooxml\elements\tr.cs" />
+    <Compile Include="soox\xps\elements\FixedPage.cs" />
+    <Compile Include="soox\xps\elements\Glyphs.cs" />
+    <Compile Include="soox\opc\OPCPackage.cs" />
+    <Compile Include="soox\opc\OPCPackage_XPS.cs" />
+    <Compile Include="soox\opc\Package.cs" />
+    <Compile Include="soox\opc\Part.cs" />
+    <Compile Include="soox\xps\elements\PageContent.cs" />
+    <Compile Include="soox\xps\parts\Part_fdoc.cs" />
+    <Compile Include="soox\opc\Part_Image.cs" />
+    <Compile Include="soox\opc\Part_Xml.cs" />
+    <Compile Include="soox\render\Paint.cs" />
+    <Compile Include="soox\render\Paint_Canvas.cs" />
+    <Compile Include="soox\render\Paint_Graphics.cs" />
+    <Compile Include="soox\user\Content.cs" />
+    <Compile Include="soox\user\XDocument.cs" />
+    <Compile Include="soox\user\XPage.cs" />
+    <Compile Include="soox\user\XTextLine.cs" />
+    <Compile Include="soox\utils\Loger.cs" />
+    <Compile Include="soox\utils\XZipEntry.cs" />
+    <Compile Include="soox\utils\XZipPackage.cs" />
+    <Compile Include="soox\xps\parts\Part_fpage.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="soox\ooxml\elements\xps\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

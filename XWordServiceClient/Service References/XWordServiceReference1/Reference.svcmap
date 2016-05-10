@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ef8f8872-8fe0-4c48-9c03-cba75b99df8b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/XWordService/DocPageFetchService/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item1.disco" MetadataType="Disco" ID="4334f90b-1123-47e3-a89d-376f620217f0" SourceId="1" SourceUrl="http://localhost:8733/XWordService/DocPageFetchService/?disco" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="42d01c41-06fd-49bc-8d30-727d4a133cb9" SourceId="1" SourceUrl="http://localhost:8733/XWordService/DocPageFetchService/?xsd=xsd2" />
+    <MetadataFile FileName="item31.xsd" MetadataType="Schema" ID="218534d1-ee03-431d-97bc-a75787ddf30b" SourceId="1" SourceUrl="http://localhost:8733/XWordService/DocPageFetchService/?xsd=xsd0" />
+    <MetadataFile FileName="DocPageFetchService.wsdl" MetadataType="Wsdl" ID="b00dc6ba-1925-4075-ae78-8e23b60bacd3" SourceId="1" SourceUrl="http://localhost:8733/XWordService/DocPageFetchService/?wsdl" />
+    <MetadataFile FileName="item32.xsd" MetadataType="Schema" ID="5e9e36d5-4e58-481f-8f87-3e09315a2bdf" SourceId="1" SourceUrl="http://localhost:8733/XWordService/DocPageFetchService/?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
