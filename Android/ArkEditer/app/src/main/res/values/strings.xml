@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">ArkEditor</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!111</string>
+    <string name="title_activity_doc_viewer">DocViewer</string>
+    <string name="strOpenDoc">打开新文件</string>
+    <string name="title_activity_file_list">FileList</string>
+</resources>

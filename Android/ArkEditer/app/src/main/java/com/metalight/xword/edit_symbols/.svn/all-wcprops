@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols
+END
+EditSymbol_DeleteChars_RectSel.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols/EditSymbol_DeleteChars_RectSel.java
+END
+EditSymbol_DeleteParagraph.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols/EditSymbol_DeleteParagraph.java
+END
+EditSymbolManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols/EditSymbolManager.java
+END
+EditSymbol_DeleteChars_LineSel.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols/EditSymbol_DeleteChars_LineSel.java
+END
+EditSymbol_SwapText.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols/EditSymbol_SwapText.java
+END
+EditSymbol.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/edit_symbols/EditSymbol.java
+END

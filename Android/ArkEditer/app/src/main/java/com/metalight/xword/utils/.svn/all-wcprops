@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils
+END
+OpenFileDialog.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/OpenFileDialog.java
+END
+ShapeStrokeManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/ShapeStrokeManager.java
+END
+CallbackBundle.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/CallbackBundle.java
+END
+StrokeTrackManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/StrokeTrackManager.java
+END
+ShapeStroke.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/ShapeStroke.java
+END
+MotionTrack.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/MotionTrack.java
+END
+StrokeTrack.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/StrokeTrack.java
+END
+VectorPoint.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/utils/VectorPoint.java
+END

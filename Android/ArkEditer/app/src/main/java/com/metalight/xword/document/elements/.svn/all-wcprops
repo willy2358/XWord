@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/document/elements
+END
+Document_Paragraph.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/document/elements/Document_Paragraph.java
+END
+TextSegment.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/document/elements/TextSegment.java
+END
+Document_Page.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/document/elements/Document_Page.java
+END
+TextLine.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/ArkEditor/!svn/ver/1/src/com/metalight/document/elements/TextLine.java
+END

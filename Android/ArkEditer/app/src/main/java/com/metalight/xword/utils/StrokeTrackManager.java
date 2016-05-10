@@ -1,0 +1,397 @@
+package com.metalight.xword.utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import android.annotation.SuppressLint;
+import android.graphics.*;
+import android.util.Log;
+
+public class StrokeTrackManager {
+	
+	private List<VectorPoint> track = new ArrayList<VectorPoint>();
+	private VectorPoint leftMostPt = new VectorPoint(100000.0f, 0.0f);
+	private VectorPoint rightMostPt = new VectorPoint(0.0f, 0.0f);
+	private VectorPoint topMostPt = new VectorPoint(0.0f, 100000.0f);
+	private VectorPoint bottomMostPt = new VectorPoint(0.0f, 0.0f);
+	
+	private List<ShapeStroke> shapes = new ArrayList<ShapeStroke>();
+	private List<StrokeTrack> editTracks = new ArrayList<StrokeTrack>();
+
+	private VectorPoint pt1 = null;
+	private VectorPoint pt2 = null;
+	private VectorPoint pt3 = null;
+	
+	private VectorPoint lastPt = null;
+	
+	private ShapeStroke curShapeStroke = null;
+	private StrokeTrack curEditTrack = null;
+	
+	
+	public void addSegFirstPoint(PointF pt)
+	{
+		VectorPoint vPt = new VectorPoint(pt);
+		if (this.pointIsRemainPartOfLastStroke(pt))
+		{
+			this.appendPointToCurrentShapeStroke(vPt);
+		}
+		else
+		{
+			pt1 = vPt;
+			
+			if (null == curEditTrack)
+			{
+				curEditTrack = new StrokeTrack();
+			}
+			
+			curShapeStroke = new ShapeStroke();
+			curShapeStroke.addTrackPoint(pt1);
+		}
+		lastPt = pt1;
+	}
+	
+	
+	
+	public void addSegEndPoint(PointF pt)
+	{
+		shapes.add(curShapeStroke);
+		curShapeStroke.logShapePoints();
+		resetPoints();
+	}
+	
+
+
+	public void addSegMidPoint(PointF pt)
+	{
+		if (tooNearFromLastPoint(pt))
+		{
+			return;
+		}
+		
+		VectorPoint vPt = new VectorPoint(pt);
+		if (null == pt1)
+		{
+			pt1 = vPt;
+			this.curShapeStroke.addTrackPoint(pt1);
+			lastPt = pt1;
+			return;
+		}
+		else if(null == pt2)
+		{
+			pt2 = vPt;
+			this.curShapeStroke.addTrackPoint(pt2);
+			lastPt = pt2;
+			return;
+		}
+		else if (null == pt3)
+		{
+			pt3 = vPt;
+			lastPt = pt3;
+		}
+		else
+		{
+			pt1 = pt2;
+			pt2 = pt3;
+			pt3 = vPt;
+			lastPt = pt3;
+		}
+		
+		parsePointsShape();
+	}
+	
+	private boolean tooNearFromLastPoint(PointF pt)
+	{
+		if (null != lastPt && lastPt.getDistanceFrom(pt) <= 2.0f)
+		{
+			String log = String.format("last:%.2f,%.2f, this:%.2f, %.2f", lastPt.x, lastPt.y, pt.x, pt.y);
+			Log.d("narrow", log);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	private void parsePointsShape()
+	{
+    	double a_square = Math.pow(pt1.x - pt3.x, 2.0) + Math.pow(pt1.y - pt3.y, 2.0);
+    	double b = Math.sqrt(Math.pow(pt1.x - pt2.x, 2.0) + Math.pow(pt1.y - pt2.y, 2.0));
+    	double c = Math.sqrt(Math.pow(pt3.x - pt2.x, 2.0) + Math.pow(pt3.y - pt2.y, 2.0));    	
+    	double cos_a = (Math.pow(b, 2.0) + Math.pow(c, 2.0) - a_square)/(2 * b * c);
+    	
+    	Log.d("cos", String.format("%.3f", cos_a));
+    	if (cos_a <= Math.cos(Math.toRadians(155)) && cos_a >= -1.0)
+    	{
+    		Log.d("cos", "no new");
+    		appendPointToCurrentShapeStroke(pt3);
+    	}
+    	else
+    	{
+    		Log.d("cos", "new");
+    		createNewShapeStroke();
+    	}
+    	
+	}
+	
+	private void appendPointToCurrentShapeStroke(VectorPoint pt)
+	{
+		this.curShapeStroke.addTrackPoint(pt);
+	}
+	
+	private void createNewShapeStroke()
+	{
+		this.shapes.add(curShapeStroke);
+		curShapeStroke.logShapePoints();
+		this.curShapeStroke = null;
+		
+		
+		curShapeStroke = new ShapeStroke();
+		curShapeStroke.addTrackPoint(pt2);
+		curShapeStroke.addTrackPoint(pt3);
+	}
+	
+	private VectorPoint appendTrackPoint(PointF pt) {
+		VectorPoint vPt = new VectorPoint(pt);
+		if( track.size() > 0)
+		{	
+			vPt.setMoveDirection(track.get(track.size() - 1));
+		}
+		
+		track.add(vPt);
+		return vPt;
+	}
+	
+	public boolean isHorzTurnPoint(VectorPoint testPt, VectorPoint prevPt1, VectorPoint prevPt2, VectorPoint nextPt)
+	{
+		if (testPt.horz_dir != prevPt1.horz_dir
+			&& testPt.horz_dir != prevPt2.horz_dir
+			&& testPt.horz_dir == nextPt.horz_dir)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isVertTurnPoint(VectorPoint testPt, VectorPoint prevPt1, VectorPoint prevPt2, VectorPoint nextPt)
+	{
+		if (testPt.vert_dir != prevPt1.vert_dir
+			&& testPt.vert_dir != prevPt2.vert_dir
+			&& testPt.vert_dir == nextPt.vert_dir)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void AddPoint(PointF pt)
+	{
+		VectorPoint vPt = appendTrackPoint(pt);
+		
+		setCornerPoints(vPt);
+	}
+	
+	public VectorPoint getLeftMostPt()
+	{
+		return leftMostPt;
+	}
+	
+	public int getEditType()
+	{
+		int type = 1;
+		
+		return type;
+	}
+	
+	public VectorPoint getRightMostPt()
+	{
+		return rightMostPt;
+	}
+	
+	public VectorPoint getTopMostPt()
+	{
+		return topMostPt;
+	}
+	
+	public VectorPoint getBottomMostPt()
+	{
+		return bottomMostPt;
+	}
+	
+	public void draw(Canvas canvas)
+	{
+		Paint paint = new Paint();
+		paint.setColor(Color.BLUE);
+		if (null != curShapeStroke)
+		{
+			curShapeStroke.draw(canvas);
+		}
+		
+		for(ShapeStroke shape : shapes)
+		{
+			shape.draw(canvas);
+		}
+	}
+	
+	public int getPointCount()
+	{
+		return track.size();
+	}
+	
+	public VectorPoint getPrevTurnPoint(int index)
+	{
+		for (int i = index - 1; i >= 0; i--)
+		{
+			VectorPoint pt = track.get(i);
+			if (pt.isTurnPoint())
+			{
+				return pt;
+			}
+		}
+		
+		return null;
+	}
+	
+	public VectorPoint getNextTurnPoint(int index)
+	{
+		for(int i = index + 1; i < track.size(); i++)
+		{
+			VectorPoint pt = track.get(i);
+			if (pt.isTurnPoint())
+			{
+				return pt;
+			}
+		}
+		
+		return null;
+	}
+	
+	@SuppressLint("DefaultLocale")
+	public void parseTurnPoints()
+	{
+		if (track.size() < 1)
+		{
+			return;
+		}
+		
+	    track.get(0).setTurnPoint(true);
+	    track.get(track.size() - 1).setTurnPoint(true);
+	    
+	    for(int i = 2; i < track.size() - 1; i++)
+	    {
+	    	if (track.get(i).horz_dir != track.get(i - 1).horz_dir
+	    		&& track.get(i).horz_dir != track.get(i -2).horz_dir
+	    		&& track.get(i).horz_dir == track.get(i + 1).horz_dir)
+	    	{
+	    		track.get(i).setTurnPoint(true);
+	    		continue;
+	    	}
+	    	
+	    	if (track.get(i).vert_dir != track.get(i - 1).vert_dir
+	    		&& track.get(i).vert_dir != track.get(i - 2).vert_dir
+	    		&& track.get(i).vert_dir == track.get(i + 1).vert_dir)
+	    	{
+	    		track.get(i).setTurnPoint(true);
+	    	}
+	    }
+	    
+	    filterJitterTurnPoints();
+	    
+	    for(int i = 0; i < track.size(); i++)
+	    {
+	    	VectorPoint pt = track.get(i);
+	    	String log = String.format("%d : %f, %f; %s:%f, %s:%f, turn:%d", i, pt.x, pt.y, pt.horz_dir.toString(),pt.horz_delt,
+	    			      pt.vert_dir.toString(), pt.vert_delt, pt.isTurnPoint()? 1 : 0);
+	    	Log.d("Move Track", log);
+	    }
+	}
+
+	private boolean pointIsRemainPartOfLastStroke(PointF pt)
+	{
+		if (null != curShapeStroke && this.tooNearFromLastPoint(pt))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	private void setCornerPoints(VectorPoint pt)
+	{
+		if (pt.x < leftMostPt.x)
+		{
+			leftMostPt = pt;
+		}
+		
+		if (pt.x > rightMostPt.x)
+		{
+			rightMostPt = pt;
+		}
+		
+		if (pt.y < topMostPt.y)
+		{
+			topMostPt = pt;
+		}
+		
+		if (pt.y > bottomMostPt.y)
+		{
+			bottomMostPt = pt;
+		}
+	}
+	
+
+	
+	private void createNewShapeStrokeEndingWithPrevPoint()
+	{
+		ShapeStroke shape = new ShapeStroke();
+		while(track.size() > 2)
+		{
+			VectorPoint pt = track.get(0);
+			shape.addTrackPoint(pt);
+			track.remove(0);
+		}
+		
+		track.get(0).setDefaultMoveDir();
+		
+		shape.logShapePoints();
+	}
+	
+	private void resetPoints()
+	{
+		this.pt1 = null;
+		this.pt2 = null;
+		this.pt3 = null;
+		this.curShapeStroke = null;
+		this.lastPt = null;
+	}
+
+	private void filterJitterTurnPoints() {
+		for(int i = 1; i < track.size() - 1; i++)
+	    {
+	    	VectorPoint pt0 = track.get(i);
+	    	if (!pt0.isTurnPoint())
+	    	{
+	    		continue;
+	    	}
+	    	
+	    	VectorPoint pt1 = getPrevTurnPoint(i);
+	    	VectorPoint pt2 = getNextTurnPoint(i);
+	    	if(null == pt1 || null == pt2)
+	    	{
+	    		continue;
+	    	}
+	    	
+	    	double a_square = Math.pow(pt1.x - pt2.x, 2.0) + Math.pow(pt1.y - pt2.y, 2.0);
+	    	double b = Math.sqrt(Math.pow(pt1.x - pt0.x, 2.0) + Math.pow(pt1.y - pt0.y, 2.0));
+	    	double c = Math.sqrt(Math.pow(pt2.x - pt0.x, 2.0) + Math.pow(pt2.y - pt0.y, 2.0));    	
+	    	double cos_a = (Math.pow(b, 2.0) + Math.pow(c, 2.0) - a_square)/(2 * b * c);
+	    	
+	    	if (cos_a <= Math.cos(Math.toRadians(145)) && cos_a >= -1.0)
+	    	{
+	    		track.get(i).setTurnPoint(false);
+	    	}
+	    	
+	    }
+	}
+}
