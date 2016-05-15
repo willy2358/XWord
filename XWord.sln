@@ -5,11 +5,15 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWord", "XWord\XWord.csproj", "{1336BFB9-BB99-402A-8BE3-E7CD2751CE04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordService", "XWordService\XWordService.csproj", "{A361115F-3E59-4874-B9C1-72F1B8E9448B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordService_WCF", "XWordService\XWordService_WCF.csproj", "{A361115F-3E59-4874-B9C1-72F1B8E9448B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordServiceHost", "XWordServiceHost\XWordServiceHost.csproj", "{FF76FE11-6ED9-4633-93F3-2929C5D48911}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordService_WCFHost", "XWordServiceHost\XWordService_WCFHost.csproj", "{FF76FE11-6ED9-4633-93F3-2929C5D48911}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordServiceClient", "XWordServiceClient\XWordServiceClient.csproj", "{E19766A0-5100-4FEB-B29A-B5376CB517EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordService_MVC", "XWordService_MVC\XWordService_MVC.csproj", "{054966DF-F988-4BCB-B686-E24040E2C500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordService_MVC.Tests", "XWordService_MVC.Tests\XWordService_MVC.Tests.csproj", "{21A7F6C8-E37D-413E-AE4F-C51B27CC5684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{E19766A0-5100-4FEB-B29A-B5376CB517EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E19766A0-5100-4FEB-B29A-B5376CB517EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E19766A0-5100-4FEB-B29A-B5376CB517EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{054966DF-F988-4BCB-B686-E24040E2C500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{054966DF-F988-4BCB-B686-E24040E2C500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{054966DF-F988-4BCB-B686-E24040E2C500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{054966DF-F988-4BCB-B686-E24040E2C500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A7F6C8-E37D-413E-AE4F-C51B27CC5684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A7F6C8-E37D-413E-AE4F-C51B27CC5684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A7F6C8-E37D-413E-AE4F-C51B27CC5684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A7F6C8-E37D-413E-AE4F-C51B27CC5684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

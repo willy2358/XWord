@@ -52,9 +52,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XWordService\XWordService.csproj">
+    <ProjectReference Include="..\XWordService\XWordService_WCF.csproj">
       <Project>{a361115f-3e59-4874-b9c1-72f1b8e9448b}</Project>
-      <Name>XWordService</Name>
+      <Name>XWordService_WCF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
