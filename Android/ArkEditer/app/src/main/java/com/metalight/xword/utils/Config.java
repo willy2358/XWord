@@ -13,6 +13,6 @@ public class Config {
     }
 
     public  static int getBatchFetchPageNumber(){
-        return 5;
+        return 1;
     }
 }

@@ -78,10 +78,17 @@ public class StartPage extends Activity {
 
 	public void OnClickOpenNewDoc(View view)
 	{
-		Intent intent = new Intent(this, DocViewer.class);
-		String file = lastEditDoc;
-		intent.putExtra(EXTRA_CUR_DOC_NAME, file);  
-		startActivity(intent); 
+		try {
+
+			Intent intent = new Intent(this, DocViewer.class);
+			int docId = 1;
+			intent.putExtra(DocViewer.DOC_ID, docId);
+
+			startActivity(intent);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	private void LoadDocPages(JSONArray pages){

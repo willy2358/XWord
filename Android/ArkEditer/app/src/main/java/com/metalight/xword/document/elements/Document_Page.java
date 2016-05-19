@@ -6,6 +6,8 @@ import java.util.List;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import org.json.JSONObject;
+
 public class Document_Page {
 	
 	private List<Document_Paragraph> paragraphs = new ArrayList<Document_Paragraph>();
@@ -25,6 +27,11 @@ public class Document_Page {
 		
 		return false;
 	}
+
+	public  boolean parseParagraphs(JSONObject jsonPage){
+		return true;
+	}
+
 	
 	public List<Document_Paragraph> getParagraphs(){
 		return this.paragraphs;
