@@ -6,10 +6,11 @@ import java.util.List;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Document_Page {
-	
+	private  int _pageOrder = 0;
 	private List<Document_Paragraph> paragraphs = new ArrayList<Document_Paragraph>();
 	
 	public void Draw(Canvas canvas){
@@ -29,6 +30,21 @@ public class Document_Page {
 	}
 
 	public  boolean parseParagraphs(JSONObject jsonPage){
+		try {
+			_pageOrder = jsonPage.getInt("pageOrder");
+			JSONArray blocks = jsonPage.getJSONArray("lineBlocks");
+			for(int i = 0; i < blocks.length(); i++)
+			{
+				JSONObject block = blocks.getJSONObject(i);
+				Document_Paragraph para = new Document_Paragraph();
+				para.parse(block);
+				this.paragraphs.add(para);
+			}
+		}
+		catch (Exception ex)
+		{
+			return  false;
+		}
 		return true;
 	}
 

@@ -71,6 +71,7 @@ public class DocViewer extends Activity {
 		Document_Json docJson = new Document_Json("");
 		docJson.setPagesJson(jsonPages);
 		docJson.loadContents();
+		_pagePanel.setDocument(docJson);
 	}
 
 	private  void fetchDocPagesDataAsync(int docId, int startPageIdx, int endPageIdx)
@@ -98,6 +99,7 @@ public class DocViewer extends Activity {
 		task.execute(getDocPagesQueryUrl(docId,startPageIdx, endPageIdx ));
 	}
 
+	//ex url: http://localhost:8088/api/getDocPages/?docId=1&startPageIdx=1&endPageIdx=1
 	private String getDocPagesQueryUrl(int docId, int startPageIdx, int endPageIdx){
 		String url = String.format("http://%s/api/getDocPages/?docId=%d&startPageIdx=%d&endPageIdx=%d",
 				Config.getServerAddress(), docId, startPageIdx, endPageIdx );
