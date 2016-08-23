@@ -5,6 +5,7 @@ using System.Text;
 using soox.ooxml.core;
 
 using soox.common;
+using soox.serialize;
 
 namespace soox.ooxml.elements
 {
@@ -38,6 +39,14 @@ namespace soox.ooxml.elements
             this._font = font;
         }
 
+        [JsonSerializeAttribute("Color")]
+        public int Color 
+        {
+            get
+            {
+                return getColor();
+            }
+        }
 
 
         public int getColor()
@@ -51,6 +60,14 @@ namespace soox.ooxml.elements
             return color.DefaultValue;
         }
 
+        [JsonSerializeAttribute("FontSize")]
+        public float FontSize
+        {
+            get
+            {
+                return getFontSize();
+            }
+        }
         public float getFontSize()
         {
             String val = GetProperty(sz.TAG_NAME);

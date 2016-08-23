@@ -56,7 +56,6 @@ namespace XWordService_MVC.Controllers
                 //return data += "}";
                 HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "application/json") };
                 return result;
-                //return "{\"aaa\":\"bbb\"}";
             }
             else
             {

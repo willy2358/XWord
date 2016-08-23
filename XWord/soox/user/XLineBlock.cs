@@ -18,6 +18,8 @@ namespace soox.user
             this.Position = position;
             this.Text = text;
         }
+
+        [JsonSerializeAttribute("Run")]
         public Run MyRun { private set; get; }
 
         [JsonSerializeAttribute("Position")]
