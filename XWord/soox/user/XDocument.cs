@@ -345,11 +345,19 @@ namespace soox.user
                         finish = true;
                     }
                     else if (run.getText().Contains(gs[j].getText())
-                             || run.getText().StartsWith(gs[j].getText())
-                             || run.getText().EndsWith(gs[j].getText()))
+                             )
                     {
                         glyphses.Add(gs[j]);
                         matchedText += gs[j].getText();
+                        if (matchedText.Length >= run.getText().Length)
+                        {
+                            finish = true;
+                        }
+                    }
+                    else if (gs[j].isAllSpaces() && run.getText().Contains(gs[j].getChineseSpaces()))
+                    {
+                        glyphses.Add(gs[j]);
+                        matchedText += gs[j].getChineseSpaces();
                         if (matchedText.Length >= run.getText().Length)
                         {
                             finish = true;

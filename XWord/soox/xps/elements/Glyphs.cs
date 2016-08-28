@@ -52,6 +52,15 @@ namespace soox.xps.elements
             return this._unicodeString;
         }
 
+        public bool isAllSpaces()
+        {
+            return this._unicodeString.Trim().Length == 0;
+        }
+
+        public string getChineseSpaces()
+        {
+            return _unicodeString.Replace(' ', '　');
+        }
 
         public common.XPoint getPosition()
         {
