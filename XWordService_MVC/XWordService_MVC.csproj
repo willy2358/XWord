@@ -163,6 +163,8 @@
     <Compile Include="Controllers\DocCategoryController.cs" />
     <Compile Include="Controllers\DocListController.cs" />
     <Compile Include="Controllers\DocSettingController.cs" />
+    <Compile Include="Controllers\DocumentManager.cs" />
+    <Compile Include="Controllers\EditDocPageController.cs" />
     <Compile Include="Controllers\GetDocPagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

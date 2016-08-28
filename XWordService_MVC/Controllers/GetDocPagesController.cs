@@ -10,7 +10,7 @@ namespace XWordService_MVC.Controllers
 {
     public class GetDocPagesController : ApiController
     {
-        private string Docs_base_dir = @"C:\MyWeb\data";
+        
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -43,12 +43,9 @@ namespace XWordService_MVC.Controllers
         // GET api/<controller>/5
         public HttpResponseMessage Get(int docId, int startPageIdx, int endPageIdx)
         {
-            string docx = "";
-            string xpsFile = "";
-            if (GetDocFilesDocId(docId, out docx, out xpsFile))
+            soox.user.XDocument doc = DocumentManager.GetDocument(docId);
+            if (null != doc)
             {
-                soox.user.XDocument doc = new soox.user.XDocument(docx);
-                doc.parsePagesFromXPS(xpsFile);
                 List<soox.user.XPage2> pages = doc.GetPages(startPageIdx, endPageIdx);
                 string data = "{\"ErrorMsg\":\"OK\",\"DocId\":" + docId.ToString() + ",";
                 string json = soox.serialize.JsonSerializer.ToJson<soox.user.XPage2>(pages);
@@ -61,6 +58,7 @@ namespace XWordService_MVC.Controllers
             {
                 return null;
             }
+
         }
 
 
@@ -79,12 +77,6 @@ namespace XWordService_MVC.Controllers
         {
         }
 
-        private bool GetDocFilesDocId(int docId, out string docFile, out string xpsFile)
-        {
-            docFile = System.IO.Path.Combine(Docs_base_dir, "1.docx");
-            xpsFile = System.IO.Path.Combine(Docs_base_dir, "1.xps");
 
-            return true;
-        }
     }
 }

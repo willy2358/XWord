@@ -24,7 +24,7 @@ namespace XWordService_MVC.Tests.Controllers
         public async void TestGetDocPages2()
         {
             GetDocPagesController controller = new GetDocPagesController();
-            HttpResponseMessage response = controller.Get(1, 1, 2);
+            HttpResponseMessage response = controller.Get(1, 0, 1);
 
             string data = await response.Content.ReadAsStringAsync();
             ////JavaScriptArray array = (JavaScriptArray)JavaScriptConvert.DeserializeObject(context.Request.Form[0]);
