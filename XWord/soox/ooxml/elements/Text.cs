@@ -29,5 +29,11 @@ namespace soox.ooxml.elements
         {
             return this._Content;
         }
+
+        public string updatePartText(string oldPartText, string newText)
+        {
+            this._Content = this._Content.Replace(oldPartText, newText);
+            return this._Content;
+        }
     }
 }

@@ -189,5 +189,14 @@ namespace soox.ooxml.elements
                 return false;
             }
         }
+
+        internal void UpdateText(string oldPartText, string newText)
+        {
+            Text textElement = this.getChildElement(Text.TAG_NAME) as Text;
+            if (null != textElement)
+            {
+                textElement.updatePartText(oldPartText, newText);
+            }
+        }
     }
 }

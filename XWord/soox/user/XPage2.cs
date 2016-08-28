@@ -35,5 +35,17 @@ namespace soox.user
             }
         }
 
+        public bool UpdateRunText(int runId, string oldText, string newText)
+        {
+            foreach(XLineBlock line in _lineBlocks)
+            {
+                if (line.MyRun.RunId == runId)
+                {
+                    line.MyRun.UpdateText(oldText, newText);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

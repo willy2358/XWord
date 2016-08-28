@@ -16,6 +16,7 @@ namespace soox.user
 {
     public class XDocument
     {
+        public enum Edit_Type { Delete = 1, Insert, Replace}
         private Paint _paint = null;
         private List<XPage> _pages = null;
         private List<XPage2> _pages2 = new List<XPage2>();
@@ -213,6 +214,24 @@ namespace soox.user
                     System.Diagnostics.Debug.WriteLine("####{0},{1}:{2}", block.Position.X, block.Position.Y, block.Text);
                 }
             }
+        }
+
+        public bool UpdatePageText(int pageIdx, int runId,  Edit_Type editType, string oldText, string newText, string editTrack)
+        {
+            System.Diagnostics.Debug.Assert(pageIdx >= 0 && pageIdx < this._pages2.Count);
+
+            if (this._pages2[pageIdx].UpdateRunText(runId, oldText, newText))
+            {
+                LogDocUpdateHistory(editType);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void LogDocUpdateHistory(Edit_Type editType)
+        {
+
         }
 
         public List<XPage2> GetPages(int startPageIdx, int endPageIdx)
