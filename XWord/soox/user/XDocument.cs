@@ -344,7 +344,9 @@ namespace soox.user
                         glyphses.Add(gs[j]);
                         finish = true;
                     }
-                    else if (run.getText().Contains(gs[j].getText()))
+                    else if (run.getText().Contains(gs[j].getText())
+                             || run.getText().StartsWith(gs[j].getText())
+                             || run.getText().EndsWith(gs[j].getText()))
                     {
                         glyphses.Add(gs[j]);
                         matchedText += gs[j].getText();

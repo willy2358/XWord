@@ -17,7 +17,12 @@ namespace soox.ooxml.elements
         private rFonts _font = null;
 
         private XPoint _position = new XPoint(0.0f, 0.0f);
-        
+        private static int RunIdGenerator = 0;
+        private int _runId = 0;
+        public Run()
+        {
+            _runId = RunIdGenerator++;
+        }
         public override string getTagName()
         {
             return TAG_NAME;
@@ -48,6 +53,14 @@ namespace soox.ooxml.elements
             }
         }
 
+        [JsonSerializeAttribute("RunId")]
+        public int RunId
+        {
+            get
+            {
+                return _runId;
+            }
+        }
 
         public int getColor()
         {
