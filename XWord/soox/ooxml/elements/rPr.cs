@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     class rPr : OoxmlProperty
     {
-        public static String TAG_NAME = "rPr";
+        public static String TAG_NAME = "w:rPr";
 
         public override string getTagName()
         {

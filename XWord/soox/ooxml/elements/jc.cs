@@ -11,7 +11,7 @@ namespace soox.ooxml.elements
     /// </summary>
     class jc :OoxmlStyle
     {
-        public static String TAG_NAME = "jc";
+        public static String TAG_NAME = "w:jc";
         public override string getTagName()
         {
             return TAG_NAME;

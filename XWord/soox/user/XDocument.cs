@@ -31,6 +31,10 @@ namespace soox.user
             this._mainPart = this._Package.getEntryPart();
         }
 
+        public void ParseContents()
+        {
+            this._mainPart.getContents();
+        }
         public void setPaint(Paint paint)
         {
             this._paint = paint;

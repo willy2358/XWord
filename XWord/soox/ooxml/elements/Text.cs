@@ -9,7 +9,7 @@ namespace soox.ooxml.elements
 {
     class Text : OoxmlElement
     {
-        public static String TAG_NAME = "t";
+        public static String TAG_NAME = "w:t";
 
         private String _Content = "";
 

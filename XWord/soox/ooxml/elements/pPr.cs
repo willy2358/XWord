@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
      class pPr : OoxmlProperty
     {
-        public static String TAG_NAME = "pPr";
+        public static String TAG_NAME = "w:pPr";
         public enum Align_Type { start = 1, end, center, both, distribute }
         public spacing Spacing = new spacing();
 

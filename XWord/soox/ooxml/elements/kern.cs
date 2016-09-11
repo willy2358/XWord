@@ -12,7 +12,7 @@ namespace soox.ooxml.elements
     /// </summary>
     class kern : OoxmlStyle
     {
-        public static String TAG_NAME = "kern";
+        public static String TAG_NAME = "w:kern";
     
         public override void Decorate(OoxmlElement xmlElement)
         {

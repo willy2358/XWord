@@ -10,7 +10,7 @@ namespace soox.ooxml.elements
 {
     public class Body : OoxmlElement, IScope
     {
-        public static String TAG_NAME = "body";
+        public static String TAG_NAME = "w:body";
 
         public override void parse(XmlTextReader xmlReader)
         {

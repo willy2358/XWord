@@ -10,7 +10,7 @@ namespace soox.ooxml.elements
 {
     class Table : Block
     {
-        public static String TAG_NAME = "tbl";
+        public static String TAG_NAME = "w:tbl";
 
         public new List<IEntity> getEntities()
         {

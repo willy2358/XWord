@@ -9,7 +9,7 @@ namespace soox.ooxml.elements
 {
     public class Document : OoxmlElement
     {
-        public static String TAG_NAME = "document";
+        public static String TAG_NAME = "w:document";
 
         public override string getTagName()
         {

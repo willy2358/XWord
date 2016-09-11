@@ -9,7 +9,7 @@ namespace soox.ooxml.elements
 {
     class hyperlink : Block
     {
-        public static String TAG_NAME = "hyperlink";
+        public static String TAG_NAME = "w:hyperlink";
 
         public List<IEntity> getEntities()
         {

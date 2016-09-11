@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     class sectPr : OoxmlElement
     {
-        public static String TAG_NAME = "sectPr";
+        public static String TAG_NAME = "w:sectPr";
 
         //页的尺寸以像素点的1/20为单位
         public static float PER_POINTS = 0.05f;

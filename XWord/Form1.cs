@@ -13,6 +13,8 @@ using Word = Microsoft.Office.Interop.Word;
 using soox.opc;
 using soox.ooxml.core;
 using soox.user;
+using System.Reflection;
+using XWord.soox.app;
 
 namespace XWord
 {
@@ -22,17 +24,15 @@ namespace XWord
         {
             InitializeComponent();
 
-            string docx = System.IO.Path.Combine(Application.StartupPath, "1.docx");
-            string xpsFile = System.IO.Path.Combine(Application.StartupPath, "1.xps");
-            XDocument xdoc = new XDocument(docx);
-            xdoc.parsePagesFromXPS(xpsFile);
+            //string xpsFile = System.IO.Path.Combine(Application.StartupPath, "1.xps");
+            //XDocument xdoc = new XDocument(docx);
+            //xdoc.parsePagesFromXPS(xpsFile);
 
-            xdoc.PrintPages();
+            //xdoc.PrintPages();
 
             //OPCPackage docOpc = new OPCPackage(docx);
             //Part docPart = docOpc.getEntryPart();
             
-            //string xpsFile = ConvertDocxIntoXPS(docx);
             
             //OPCPackage xpsOpc = new OPCPackage(xpsFile);
 
@@ -55,13 +55,36 @@ namespace XWord
 
         private string ConvertDocxIntoXPS(string docx)
         {
-            Word.Application application = new Word.Application();
-            Word.Document document = application.Documents.Open(docx);
+            Word.Application wordApp = new Word.Application();
+
+            Word.Document document = wordApp.Documents.Open(docx);
+
+            Object Nothing = Missing.Value;
+
             string xpsName = Path.GetFileNameWithoutExtension(docx) + ".xps";
             string xpsFile = System.IO.Path.Combine(Path.GetDirectoryName(docx), xpsName);
-            document.SaveAs(xpsFile, ".xps");
-            document.Close();
+            document.SaveAs(xpsFile, Word.WdExportFormat.wdExportFormatXPS);
+            document.Close(ref Nothing, ref Nothing, ref Nothing);
+            wordApp.Quit();
             return xpsFile;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TestPreprocessDocument();
+
+        }
+
+        private void TestConvertDocxToXps()
+        {
+            string docx = System.IO.Path.Combine(Application.StartupPath, "1.docx");
+            string xpsFile = ConvertDocxIntoXPS(docx);
+        }
+
+        private void TestPreprocessDocument()
+        {
+            string docx = System.IO.Path.Combine(Application.StartupPath, "1.docx");
+            Workflow.PreprocessOriginalDocument(docx);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     class szCs : OoxmlStyle
     {
-        public static String TAG_NAME = "szCs";
+        public static String TAG_NAME = "w:szCs";
 
         public override string getTagName()
         {

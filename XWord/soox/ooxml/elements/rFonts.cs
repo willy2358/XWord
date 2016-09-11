@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     public class rFonts : OoxmlStyle
     {
-        public static String TAG_NAME = "rFonts";
+        public static String TAG_NAME = "w:rFonts";
 
         public static String Default_font_for_ascii = "Calibri";
         public static String Default_font_for_ch = "宋体";

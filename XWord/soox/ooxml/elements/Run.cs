@@ -11,7 +11,7 @@ namespace soox.ooxml.elements
 {
     public class Run : OoxmlElement, IEntity
     {
-        public static String TAG_NAME = "r";
+        public static String TAG_NAME = "w:r";
         private XSize _size = new XSize(0.0f, 0.0f);
 
         private rFonts _font = null;

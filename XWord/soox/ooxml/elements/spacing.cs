@@ -13,8 +13,8 @@ namespace soox.ooxml.elements
 
         public enumLineRule LineRule = enumLineRule.auto;
         public float LineSpacing = 1.0f;
-        
-        public static String TAG_NAME = "spacing";
+
+        public static String TAG_NAME = "w:spacing";
 
         public static float PER_POINTS = 0.05f;       //点单位, 
 

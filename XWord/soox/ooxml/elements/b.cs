@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     public class b : OoxmlStyle    //bold
     {
-        public static String TAG_NAME = "b";
+        public static String TAG_NAME = "w:b";
         public static bool DefaultValue = false;    
         public override string getTagName()
         {

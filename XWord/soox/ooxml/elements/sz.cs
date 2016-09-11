@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     class sz : OoxmlStyle
     {
-        public static String TAG_NAME = "sz";
+        public static String TAG_NAME = "w:sz";
         public static int DefaultValue = 21;    //五号 ooxml unit: half-point = 1/144 of an inch
 
         public static float PER_POINTS = 0.5f;       //点单位

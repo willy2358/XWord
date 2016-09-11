@@ -65,7 +65,7 @@ namespace soox.opc
                     XmlNodeType type = xml.NodeType;
                     if (type == XmlNodeType.Element)
                     {
-                        this._root = OoxmlElement.createXmlElement(xml.LocalName);
+                        this._root = OoxmlElement.createXmlElement(xml.Name);
                         this._root.parse(xml);
                     }
                 }
@@ -97,7 +97,7 @@ namespace soox.opc
 
         public override void ApplyUpdatesToDataStream()
         {
-            StringBuilder sbStream = new StringBuilder(5000);
+            StringBuilder sbStream = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n", 5000);
 
             this._root.WriteToStream(sbStream);
 

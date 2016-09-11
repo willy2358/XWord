@@ -9,7 +9,7 @@ namespace soox.ooxml.elements
 {
     class rStyle : OoxmlStyle
     {
-        public static String TAG_NAME = "rStyle";
+        public static String TAG_NAME = "w:rStyle";
 
         public override void Decorate(OoxmlElement xmlElement)
         {

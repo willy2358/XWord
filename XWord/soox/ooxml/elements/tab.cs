@@ -12,7 +12,7 @@ namespace soox.ooxml.elements
     /// </summary>
     class tab : OoxmlStyle
     {
-        public static String TAG_NAME = "tab";
+        public static String TAG_NAME = "w:tab";
 
         public override void Decorate(OoxmlElement xmlElement)
         {

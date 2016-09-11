@@ -11,7 +11,7 @@ namespace soox.ooxml.elements
     /// </summary>
     class noProof : OoxmlStyle
     {
-        public static String TAG_NAME = "noProof";
+        public static String TAG_NAME = "w:noProof";
 
         public override string getTagName()
         {

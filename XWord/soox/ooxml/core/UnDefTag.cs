@@ -11,7 +11,8 @@ namespace soox.ooxml.core
         //private String _InnerText = "";
         public override void parse(System.Xml.XmlTextReader xmlReader)
         {
-            this._TagName = xmlReader.LocalName;
+            this._TagName = xmlReader.Name;
+            this._XmlElemName = this._TagName;
             ReadAttributes(xmlReader);
 
             if (!isXmlNodeHasChild(xmlReader))
@@ -19,14 +20,7 @@ namespace soox.ooxml.core
                 return;
             }
 
-            //this._InnerText = xmlReader.ReadString();
-            //if (_InnerText.Trim().Length < 1)
-            //{
-                 ReadXmlNodeContent(xmlReader);
-            
-            //}
-            //String str = xmlReader.ReadString();
-            //System.Diagnostics.Debug.WriteLine(str);
+            ReadXmlNodeContent(xmlReader);
         }
 
         public override string getTagName()

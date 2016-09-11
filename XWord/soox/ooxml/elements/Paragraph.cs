@@ -10,7 +10,7 @@ namespace soox.ooxml.elements
 {
     class Paragraph : Block
     {
-        public static String TAG_NAME = "p";
+        public static String TAG_NAME = "w:p";
 
         public pPr Property = new pPr();
 

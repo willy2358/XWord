@@ -8,7 +8,7 @@ namespace soox.ooxml.elements
 {
     class color : OoxmlStyle
     {
-        public static String TAG_NAME = "color";
+        public static String TAG_NAME = "w:color";
         public static int DefaultValue = 0x000000;  //RGB, black
 
         public override string getTagName()

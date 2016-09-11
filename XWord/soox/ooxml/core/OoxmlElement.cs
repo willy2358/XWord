@@ -40,8 +40,8 @@ namespace soox.ooxml.core
 
             if (elemName.Trim().Length > 0)
             {
-                //return new UnDefTag();
-                return null;
+                return new UnDefTag();
+                //return null;
             }
             else
             {
@@ -88,6 +88,10 @@ namespace soox.ooxml.core
         public void WriteToStream(StringBuilder stream)
         {
             stream.AppendFormat("<{0}", this._XmlElemName);
+            if (_XmlElemName == "w:sectPr")
+            {
+                System.Diagnostics.Debugger.Break();
+            }
             for (int i = 0; i < this._attributes.Count; i++)
             {
                 KeyValuePair<String, String> entry = this._attributes.ElementAt(i);
@@ -104,6 +108,7 @@ namespace soox.ooxml.core
             }
             else
             {
+                stream.Append(">");
                 for (int j = 0; j < this._children.Count; j++)
                 {
                     _children[j].WriteToStream(stream);
@@ -145,16 +150,16 @@ namespace soox.ooxml.core
 
         protected void ReadXmlNodeContent(XmlTextReader xmlReader)
         {
-            this._XmlElemName = xmlReader.LocalName;
+            this._XmlElemName = xmlReader.Name;
             this._InnerText = xmlReader.ReadString();
             while (true)
             {
-                if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.LocalName == _XmlElemName)
+                if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == _XmlElemName)
                 {
                     break;
                 }
 
-                OoxmlElement elem = OoxmlElement.createXmlElement(xmlReader.LocalName);
+                OoxmlElement elem = OoxmlElement.createXmlElement(xmlReader.Name);
                 if (null != elem)
                 {
                     elem.parse(xmlReader);
@@ -230,9 +235,13 @@ namespace soox.ooxml.core
 
         protected void validateXmlTag(XmlTextReader xmlReader)
         {
-            if (!xmlReader.LocalName.Equals(getTagName()))
+            if (!xmlReader.Name.Equals(getTagName()))
             {
                 throw new Exception("Not TAG :" + getTagName());
+            }
+            else
+            {
+                this._XmlElemName = xmlReader.Name;
             }
         }
 
