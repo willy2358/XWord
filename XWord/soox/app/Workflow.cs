@@ -32,7 +32,7 @@ namespace XWord.soox.app
         {
             XDocument doc = new XDocument(originalDocFile);
             doc.ParseContents();
-
+            doc.SetupIdForRuns();
             doc.saveAs(GetEditDocumentName(originalDocFile));
         }
     }

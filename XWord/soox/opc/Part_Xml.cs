@@ -131,7 +131,6 @@ namespace soox.opc
             this._DataStream.Seek(0, SeekOrigin.Begin);
 
             this._DataStream.Flush();
-            
 
             byte[] data = System.Text.Encoding.UTF8.GetBytes(sbStream.ToString());
 

@@ -17,11 +17,11 @@ namespace soox.ooxml.elements
         private rFonts _font = null;
 
         private XPoint _position = new XPoint(0.0f, 0.0f);
-        private static int RunIdGenerator = 0;
+        //private static int RunIdGenerator = 0;
         private int _runId = 0;
         public Run()
         {
-            _runId = RunIdGenerator++;
+            //_runId = RunIdGenerator++;
         }
         public override string getTagName()
         {
@@ -59,6 +59,18 @@ namespace soox.ooxml.elements
             get
             {
                 return _runId;
+            }
+            set
+            {
+                _runId = value;
+                if (!this._attributes.ContainsKey("RunId"))
+                {
+                    this.addAttribute("RunId", _runId.ToString());
+                }
+                else
+                {
+                    this._attributes["RunId"] = _runId.ToString();
+                }
             }
         }
 

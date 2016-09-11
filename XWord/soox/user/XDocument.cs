@@ -35,10 +35,28 @@ namespace soox.user
         {
             this._mainPart.getContents();
         }
+
+        public void SetupIdForRuns()
+        {
+            int runId = 1;
+            List<IBlock> blocks = this._mainPart.getContents();
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                Block block = blocks[i] as Block;
+                List<Run> runs = block.getRuns();
+                for (int j = 0; j < runs.Count; j++)
+                {
+                    Run run = runs[j];
+                    run.RunId = runId++;
+                }
+            }
+        }
+ 
         public void setPaint(Paint paint)
         {
             this._paint = paint;
         }
+
 
         public Paint getPaint()
         {
