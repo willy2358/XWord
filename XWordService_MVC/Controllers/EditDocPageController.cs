@@ -7,6 +7,8 @@ using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using XWord.soox.app;
+using XWordService_MVC.Models;
 
 namespace XWordService_MVC.Controllers
 {
@@ -39,11 +41,28 @@ namespace XWordService_MVC.Controllers
         public HttpResponseMessage Get(int docId, int pageIdx, int runId, 
                                        int editType, string oldPartText, string newPartText, string editTrack)
         {
-            XDocument doc = DocumentManager.GetDocument(docId);
+            //XDocument doc = DocumentManager.GetDocument(docId);
+            //bool ret = false;
+            //if (null != doc)
+            //{
+            //    ret = doc.UpdatePageText(pageIdx, runId, (XDocument.Edit_Type)editType, oldPartText, newPartText, editTrack);
+            //}
+
+            //if (ret)
+            //{
+            //    string data = "{\"ErrorMsg\":\"OK\"}";
+            //    return new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "application/json") };
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+
             bool ret = false;
-            if (null != doc)
+            Workspace workspace = DocumentManager.GetDocumentWorkspace(docId);
+            if (null != workspace)
             {
-                ret = doc.UpdatePageText(pageIdx, runId, (XDocument.Edit_Type)editType, oldPartText, newPartText, editTrack);
+                ret = workspace.UpdatePageText(pageIdx, runId, (XDocument.Edit_Type)editType, oldPartText, newPartText, editTrack);
             }
 
             if (ret)

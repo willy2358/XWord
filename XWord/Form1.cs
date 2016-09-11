@@ -84,7 +84,8 @@ namespace XWord
         private void TestPreprocessDocument()
         {
             string docx = System.IO.Path.Combine(Application.StartupPath, "1.docx");
-            Workflow.PreprocessOriginalDocument(docx);
+            Workspace workspace = new Workspace(docx);
+            workspace.PreprocessDocument();
         }
     }
 }

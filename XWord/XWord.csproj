@@ -58,7 +58,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="soox\app\Workflow.cs" />
+    <Compile Include="soox\app\Workspace.cs" />
     <Compile Include="soox\common\XFont.cs" />
     <Compile Include="soox\common\XPoint.cs" />
     <Compile Include="soox\common\XSize.cs" />
