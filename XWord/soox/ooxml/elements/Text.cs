@@ -25,6 +25,14 @@ namespace soox.ooxml.elements
             _Content = xmlReader.ReadString();
         }
 
+        public override void parse(System.Xml.XmlNode xmlNode)
+        {
+            validateXmlTag(xmlNode);
+
+            _Content = xmlNode.InnerText;
+            this._InnerText = _Content;
+        }
+
         public String getContent()
         {
             return this._Content;

@@ -23,6 +23,19 @@ namespace soox.ooxml.core
             ReadXmlNodeContent(xmlReader);
         }
 
+        public override void parse(System.Xml.XmlNode xmlNode)
+        {
+            this._TagName = xmlNode.Name;
+            this._XmlElemName = this._TagName;
+            ReadAttributes(xmlNode);
+
+            if (!isXmlNodeHasChild(xmlNode))
+            {
+                return;
+            }
+
+            ReadXmlNodeContent(xmlNode);
+        }
         public override string getTagName()
         {
             return "";

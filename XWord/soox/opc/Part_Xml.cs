@@ -15,6 +15,7 @@ namespace soox.opc
     public class Part_Xml : Part
     {
         private OoxmlElement _root = null;
+        private string _xmlDeclaration;
 
         public Part_Xml(String name, string zipDir) : base(name, zipDir)
         {
@@ -24,7 +25,7 @@ namespace soox.opc
         {
             if (null == this._root)
             {
-                parseXmlStream();
+                parseXmlStream2();
             }
 
             OoxmlElement scopeNode = getScopeChildNode();
@@ -76,6 +77,32 @@ namespace soox.opc
             }
         }
 
+        public void parseXmlStream2()
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(this.getDataStream());
+                for(int i = 0; i < xmlDoc.ChildNodes.Count; i++)
+                {
+                    XmlNode xmlNode = xmlDoc.ChildNodes[i];
+                    if (xmlNode is XmlElement)
+                    {
+                        this._root = OoxmlElement.createXmlElement(xmlNode.Name);
+                        this._root.parse(xmlNode);
+                    }
+                    else if (xmlNode is XmlDeclaration)
+                    {
+                        this._xmlDeclaration = xmlNode.OuterXml;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
         private List<IBlock> getBlockNodes(OoxmlElement parent)
         {
             if (null == parent)
@@ -97,13 +124,14 @@ namespace soox.opc
 
         public override void ApplyUpdatesToDataStream()
         {
-            StringBuilder sbStream = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n", 5000);
+            StringBuilder sbStream = new StringBuilder( _xmlDeclaration + "\r\n", 5000);
 
             this._root.WriteToStream(sbStream);
-
+            this._DataStream.SetLength(0);
             this._DataStream.Seek(0, SeekOrigin.Begin);
 
             this._DataStream.Flush();
+            
 
             byte[] data = System.Text.Encoding.UTF8.GetBytes(sbStream.ToString());
 

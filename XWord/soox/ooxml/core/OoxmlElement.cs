@@ -70,6 +70,25 @@ namespace soox.ooxml.core
             }
         }
 
+        public virtual void parse(XmlNode xmlNode)
+        {
+            validateXmlTag(xmlNode);
+
+            ReadAttributes(xmlNode);
+
+            if (!isXmlNodeHasChild(xmlNode))
+            {
+                return;
+            }
+
+            ReadXmlNodeContent(xmlNode);
+
+            if (this is IBlock || this is IEntity)
+            {
+                ApplyOoxmlStyles();
+            }
+        }
+
         public List<OoxmlElement> getChildren()
         {
             return this._children;
@@ -87,6 +106,10 @@ namespace soox.ooxml.core
 
         public void WriteToStream(StringBuilder stream)
         {
+            if (this._InnerText.IndexOf("中的位置") > 0)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
             stream.AppendFormat("<{0}", this._XmlElemName);
             if (_XmlElemName == "w:sectPr")
             {
@@ -170,6 +193,24 @@ namespace soox.ooxml.core
             }
         }
 
+        protected void ReadXmlNodeContent(XmlNode xmlNode)
+        {
+            this._XmlElemName = xmlNode.Name;
+            if (xmlNode.ChildNodes.Count == 1 && xmlNode.ChildNodes[0] is XmlText)
+            {
+                this._InnerText = xmlNode.InnerText;
+            }
+            
+            foreach (XmlNode node in xmlNode.ChildNodes)
+            {
+                OoxmlElement elem = OoxmlElement.createXmlElement(node.Name);
+                if (null != elem)
+                {
+                    elem.parse(node);
+                    this.addChildElement(elem);
+                }
+            }
+        }
         protected bool isXmlNodeHasChild(XmlTextReader xmlReader)
         {
             XmlNodeType type = xmlReader.MoveToContent();
@@ -180,6 +221,11 @@ namespace soox.ooxml.core
             return true;
         }
 
+        protected bool isXmlNodeHasChild(XmlNode xmlNode)
+        {
+            return xmlNode.ChildNodes.Count > 0;
+        }
+
         protected void ReadAttributes(XmlTextReader xmlReader)
         {
             for (int i = 0; i < xmlReader.AttributeCount; i++)
@@ -188,6 +234,19 @@ namespace soox.ooxml.core
                 String attr = xmlReader.Name;
                 String attrVal = xmlReader.GetAttribute(attr);
                 addAttribute(attr, attrVal);
+            }
+        }
+
+        protected void ReadAttributes(XmlNode xmlNode)
+        {
+            if (null == xmlNode || null == xmlNode.Attributes)
+            {
+                return;
+            }
+            for(int i = 0; i < xmlNode.Attributes.Count; i++)
+            {
+                XmlAttribute attr = xmlNode.Attributes[i];
+                addAttribute(attr.Name, attr.Value);
             }
         }
 
@@ -242,6 +301,18 @@ namespace soox.ooxml.core
             else
             {
                 this._XmlElemName = xmlReader.Name;
+            }
+        }
+
+        protected void validateXmlTag(XmlNode xmlNode)
+        {
+            if (!xmlNode.Name.Equals(getTagName()))
+            {
+                throw new Exception("Not TAG :" + getTagName());
+            }
+            else
+            {
+                this._XmlElemName = xmlNode.Name;
             }
         }
 
