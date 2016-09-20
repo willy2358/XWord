@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Messaging;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,11 @@ namespace XWord.soox.app
 
         public static string ConvertDocxIntoXPS(string docx)
         {
+            return ConvertDocxIntoXPSViaMSMQ(docx);
+        }
+
+        private static string ConvertDocxIntoXPSViaWordAPI(string docx)
+        {
             Word.Application wordApp = new Word.Application();
             Word.Document document = wordApp.Documents.Open(docx);
             Object Nothing = Missing.Value;
@@ -53,6 +59,44 @@ namespace XWord.soox.app
             document.Close(ref Nothing, ref Nothing, ref Nothing);
             wordApp.Quit();
             return xpsFile;
+        }
+
+        public static string ConvertDocxIntoXPSViaMSMQ(string docx)
+        {
+            Message msg = null;
+            MessageQueue mq = null;
+
+            try
+            {
+                msg = new Message();
+                msg.Priority = MessagePriority.Normal;
+                if (!MessageQueue.Exists(@".\Private$\TechRepublic"))
+                {
+                    mq = MessageQueue.Create(@".\Private$\TechRepublic");
+                }
+                else
+                {
+                    mq = new MessageQueue(@".\Private$\TechRepublic");
+                }
+                msg.Label = "Test Message";
+                msg.Body = "This is only a test";
+                mq.Send(msg);
+                Console.WriteLine("Message sent.");
+            }
+            catch (System.Messaging.MessageQueueException ex)
+            {
+                Console.WriteLine("MSMQ Error: " + ex.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.ToString());
+            }
+            finally
+            {
+                mq.Close();
+            }
+
+            return "";
         }
 
         public List<XPage2> GetEditPages(int startPageIdx, int endPageIdx)
