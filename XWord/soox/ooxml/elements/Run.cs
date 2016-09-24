@@ -18,7 +18,7 @@ namespace soox.ooxml.elements
 
         private XPoint _position = new XPoint(0.0f, 0.0f);
         //private static int RunIdGenerator = 0;
-        private int _runId = 0;
+        private UInt32 _runId = 0;
         public Run()
         {
             //_runId = RunIdGenerator++;
@@ -54,11 +54,18 @@ namespace soox.ooxml.elements
         }
 
         [JsonSerializeAttribute("RunId")]
-        public int RunId
+        public UInt32 RunId
         {
             get
             {
-                return _runId;
+                if (this._attributes.ContainsKey("RunId"))
+                {
+                    return Convert.ToUInt32(this.GetAttributeValue("RunId"));
+                }
+                else
+                {
+                    return 0;
+                }
             }
             set
             {

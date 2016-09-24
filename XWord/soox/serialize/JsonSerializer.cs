@@ -66,7 +66,8 @@ namespace soox.serialize
             }
             string json = string.Format("\"{0}\":", key);
             if (prop.PropertyType == typeof(double) || prop.PropertyType == typeof(int)
-                ||prop.PropertyType == typeof(float) || prop.PropertyType == typeof(long))
+                ||prop.PropertyType == typeof(float) || prop.PropertyType == typeof(long)
+                ||prop.PropertyType == typeof(UInt32))
             {
                 Object ret = prop.GetValue(obj);
                 json += string.Format("{0}", ret);

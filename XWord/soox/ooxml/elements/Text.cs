@@ -41,6 +41,7 @@ namespace soox.ooxml.elements
         public string updatePartText(string oldPartText, string newText)
         {
             this._Content = this._Content.Replace(oldPartText, newText);
+            this._InnerText = _Content;
             return this._Content;
         }
     }

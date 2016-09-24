@@ -110,8 +110,12 @@ namespace XWord.soox.app
                     string previewDocFile = GetPreviewDocumentName(_originalDocFile);
                     _previewDocument.saveAs(previewDocFile);
                     string previewXps = ConvertDocxIntoXPS(previewDocFile);
-                    this._previewDocument = new XDocument(previewDocFile);
-                    this._previewDocument.parsePagesFromXPS(previewXps);
+                    if(!string.IsNullOrEmpty(previewXps))
+                    {
+                        this._previewDocument = new XDocument(previewDocFile);
+                        this._previewDocument.parsePagesFromXPS(previewXps);
+                        return true;
+                    }
                 }
             }
 

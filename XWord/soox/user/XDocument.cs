@@ -39,7 +39,7 @@ namespace soox.user
 
         public void SetupIdForRuns()
         {
-            int runId = 1;
+            UInt32 runId = 1;
             List<IBlock> blocks = this._mainPart.getContents();
             for (int i = 0; i < blocks.Count; i++)
             {
