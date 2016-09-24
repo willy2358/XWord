@@ -47,6 +47,17 @@ namespace XWord.soox.app
         {
             string xpsName = Path.GetFileNameWithoutExtension(docx) + ".xps";
             string xpsFile = System.IO.Path.Combine(Path.GetDirectoryName(docx), xpsName);
+            if (File.Exists(xpsFile))
+            {
+                try
+                {
+                    File.Delete(xpsFile);
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+            }
             DocxToXpsConverter converter = DocxToXpsConverter.CreateConverter();
             if (converter.Convert(docx, xpsFile))
             {
@@ -114,19 +125,25 @@ namespace XWord.soox.app
             XDocument doc = new XDocument(_originalDocFile);
             doc.ParseContents();
             doc.SetupIdForRuns();
-            if (!doc.saveAs(editDocFile))
-            {
-                return;
-            }
-               
+              
             if (File.Exists(editDocFile))
             {
                 string editXps = ConvertDocxIntoXPS(editDocFile);
                 this._editDocument = new XDocument(editDocFile);
                 this._editDocument.parsePagesFromXPS(editXps);
             }
-
             string previewDocFile = GetPreviewDocumentName(_originalDocFile);
+            if (File.Exists(previewDocFile))
+            {
+                try
+                {
+                    File.Delete(previewDocFile);
+                }
+                catch(Exception)
+                {
+
+                }
+            }
             File.Copy(editDocFile, previewDocFile);
             if (File.Exists(previewDocFile))
             {

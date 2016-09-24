@@ -11,6 +11,7 @@ using soox.common;
 using soox.metrics;
 using soox.xps.parts;
 using soox.xps.elements;
+using System.IO;
 
 namespace soox.user
 {
@@ -81,6 +82,18 @@ namespace soox.user
 
         public bool saveAs(String newFileName)
         {
+            if (File.Exists(newFileName))
+            {
+                try
+                {
+                    File.Delete(newFileName);
+                }
+                catch(Exception)
+                {
+                    return false;
+                }
+            }
+
             this._mainPart.ApplyUpdatesToDataStream();
             return this._Package.saveAs(newFileName);
         }
