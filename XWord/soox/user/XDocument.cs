@@ -80,17 +80,24 @@ namespace soox.user
             this._pages[pageNum - 1].draw(this._paint);
         }
 
-        public bool saveAs(String newFileName)
+        public bool saveAs(String newFileName, bool deleteExist = false)
         {
             if (File.Exists(newFileName))
             {
-                try
+                if (deleteExist)
                 {
-                    File.Delete(newFileName);
+                    try
+                    {
+                        File.Delete(newFileName);
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
                 }
-                catch(Exception)
+                else
                 {
-                    return false;
+                    return true;
                 }
             }
 

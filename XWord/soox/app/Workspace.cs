@@ -43,28 +43,42 @@ namespace XWord.soox.app
             return System.IO.Path.Combine(path, string.Format("{0}_e_prev{1}", filename, ext));
         }
 
-        public static string ConvertDocxIntoXPS(string docx)
+        public static bool ConvertDocxIntoXPS(string docx, string destXps, bool deleteExistXps = false)
+        {
+            if (File.Exists(destXps))
+            {
+                if (deleteExistXps)
+                {
+                    try
+                    {
+                        File.Delete(destXps);
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            DocxToXpsConverter converter = DocxToXpsConverter.CreateConverter();
+            if (converter.Convert(docx, destXps))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static string GetXpsFilePathForDocx(string docx)
         {
             string xpsName = Path.GetFileNameWithoutExtension(docx) + ".xps";
             string xpsFile = System.IO.Path.Combine(Path.GetDirectoryName(docx), xpsName);
-            if (File.Exists(xpsFile))
-            {
-                try
-                {
-                    File.Delete(xpsFile);
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-            }
-            DocxToXpsConverter converter = DocxToXpsConverter.CreateConverter();
-            if (converter.Convert(docx, xpsFile))
-            {
-                return xpsFile;
-            }
 
-            return "";
+            return xpsFile;
         }
 
         private static string ConvertDocxIntoXPSViaWordAPI(string docx)
@@ -103,58 +117,106 @@ namespace XWord.soox.app
 
         public bool UpdatePageText(int pageIdx, int runId, XDocument.Edit_Type editType, string oldText, string newText, string editTrack)
         {
-            if (null != this._previewDocument)
+            if (null == this._previewDocument)
             {
-                if (_previewDocument.UpdatePageText(pageIdx, runId, (XDocument.Edit_Type)editType, oldText, newText, editTrack))
+                if (!PreprocessForPreviewChanges())
                 {
-                    string previewDocFile = GetPreviewDocumentName(_originalDocFile);
-                    _previewDocument.saveAs(previewDocFile);
-                    string previewXps = ConvertDocxIntoXPS(previewDocFile);
-                    if(!string.IsNullOrEmpty(previewXps))
-                    {
-                        this._previewDocument = new XDocument(previewDocFile);
-                        this._previewDocument.parsePagesFromXPS(previewXps);
-                        return true;
-                    }
+                    return false;
+                }
+            }
+
+            if (_previewDocument.UpdatePageText(pageIdx, runId, (XDocument.Edit_Type)editType, oldText, newText, editTrack))
+            {
+                string previewDocFile = GetPreviewDocumentName(_originalDocFile);
+                _previewDocument.saveAs(previewDocFile, true);
+                string previewXps = GetXpsFilePathForDocx(previewDocFile);
+                if(ConvertDocxIntoXPS(previewDocFile, previewXps, true))
+                {
+                    this._previewDocument = new XDocument(previewDocFile);
+                    this._previewDocument.parsePagesFromXPS(previewXps);
+                    return true;
                 }
             }
 
             return false;
         }
-             
+         
+        public bool PreprocessForPreviewChanges()
+        {
+            string previewDocFile = GetPreviewDocumentName(_originalDocFile);
+            if (!File.Exists(previewDocFile))
+            {
+                if (!PreprocessForEditDocument())
+                {
+                    return false;
+                }
 
-        public void PreprocessDocument()
+                string editDocFile = GetEditDocumentName(_originalDocFile);
+                File.Copy(editDocFile, previewDocFile);
+            }
+
+            string xpsForPreview = GetXpsFilePathForDocx(previewDocFile);
+            if (!File.Exists(xpsForPreview))
+            {
+                if (!ConvertDocxIntoXPS(previewDocFile, xpsForPreview))
+                {
+                    return false;
+                }
+            }
+
+            this._previewDocument = new XDocument(previewDocFile);
+            this._previewDocument.parsePagesFromXPS(xpsForPreview);
+            return true;
+        }
+
+        public bool PreprocessForEditDocument()
         {
             string editDocFile = GetEditDocumentName(_originalDocFile);
-            XDocument doc = new XDocument(_originalDocFile);
-            doc.ParseContents();
-            doc.SetupIdForRuns();
-              
-            if (File.Exists(editDocFile))
+            if (!File.Exists(editDocFile))
             {
-                string editXps = ConvertDocxIntoXPS(editDocFile);
-                this._editDocument = new XDocument(editDocFile);
-                this._editDocument.parsePagesFromXPS(editXps);
+                XDocument doc = new XDocument(_originalDocFile);
+                doc.ParseContents();
+                doc.SetupIdForRuns();
             }
-            string previewDocFile = GetPreviewDocumentName(_originalDocFile);
-            if (File.Exists(previewDocFile))
-            {
-                try
-                {
-                    File.Delete(previewDocFile);
-                }
-                catch(Exception)
-                {
 
+            string xpsForEdit = GetXpsFilePathForDocx(editDocFile);
+            if (!File.Exists(xpsForEdit))
+            {
+                if (!ConvertDocxIntoXPS(editDocFile, xpsForEdit))
+                {
+                    return false;
                 }
             }
-            File.Copy(editDocFile, previewDocFile);
-            if (File.Exists(previewDocFile))
-            {
-                string previewXps = ConvertDocxIntoXPS(previewDocFile);
-                this._previewDocument = new XDocument(previewDocFile);
-                this._previewDocument.parsePagesFromXPS(previewXps);
-            }
+
+            this._editDocument = new XDocument(editDocFile);
+            this._editDocument.parsePagesFromXPS(xpsForEdit);
+            return true;
+
+            //if (File.Exists(editDocFile))
+            //{
+            //    string editXps = ConvertDocxIntoXPS(editDocFile);
+            //    this._editDocument = new XDocument(editDocFile);
+            //    this._editDocument.parsePagesFromXPS(editXps);
+            //}
+            //string previewDocFile = GetPreviewDocumentName(_originalDocFile);
+            //if (File.Exists(previewDocFile))
+            //{
+            //    try
+            //    {
+            //        File.Delete(previewDocFile);
+            //    }
+            //    catch(Exception)
+            //    {
+
+            //    }
+            //}
+            //File.Copy(editDocFile, previewDocFile);
+            //if (File.Exists(previewDocFile))
+            //{
+            //    string previewXps = ConvertDocxIntoXPS(previewDocFile);
+            //    this._previewDocument = new XDocument(previewDocFile);
+            //    this._previewDocument.parsePagesFromXPS(previewXps);
+            //}
         }
     }
 }

@@ -60,7 +60,7 @@ namespace XWordService_MVC.Controllers
             //{
             //    return null;
             //}
-            Workspace workspace = DocumentManager.GetDocumentWorkspace(docId);
+            Workspace workspace = DocumentManager.GetEdittingDocumentWorkspace(docId);
             if (null != workspace)
             {
                 List<soox.user.XPage2> pages = workspace.GetEditPages(startPageIdx, endPageIdx);

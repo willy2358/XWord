@@ -11,13 +11,14 @@ namespace XWordService_MVC.Models
     {
         private static string Docs_base_dir = @"C:\MyWeb\data";
         private static Dictionary<int, XDocument> OpenedDocuments = new Dictionary<int, XDocument>();
-        private static Dictionary<int, Workspace> OpenedWorkspaces = new Dictionary<int, Workspace>();
+        private static Dictionary<int, Workspace> EditDocWorkspaces = new Dictionary<int, Workspace>();
+        private static Dictionary<int, Workspace> PreviewChangesWorkspaces = new Dictionary<int, Workspace>();
 
-        public static Workspace GetDocumentWorkspace(int docId)
+        public static Workspace GetEdittingDocumentWorkspace(int docId)
         {
-            if (OpenedWorkspaces.Keys.Contains(docId))
+            if (EditDocWorkspaces.Keys.Contains(docId))
             {
-                return OpenedWorkspaces[docId];
+                return EditDocWorkspaces[docId];
             }
             else
             {
@@ -25,8 +26,31 @@ namespace XWordService_MVC.Models
                 if (GetDocFileForDocId(docId, out docFile))
                 {
                     Workspace ws = new Workspace(docFile);
-                    ws.PreprocessDocument();
-                    OpenedWorkspaces.Add(docId, ws);
+                    ws.PreprocessForEditDocument();
+                    EditDocWorkspaces.Add(docId, ws);
+                    return ws;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public static Workspace GetPreviewDocChangesWorkspace(int docId)
+        {
+            if (PreviewChangesWorkspaces.Keys.Contains(docId))
+            {
+                return PreviewChangesWorkspaces[docId];
+            }
+            else
+            {
+                string docFile;
+                if (GetDocFileForDocId(docId, out docFile))
+                {
+                    Workspace ws = new Workspace(docFile);
+                    ws.PreprocessForPreviewChanges();
+                    PreviewChangesWorkspaces.Add(docId, ws);
                     return ws;
                 }
                 else
