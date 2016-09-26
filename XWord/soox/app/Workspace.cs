@@ -177,6 +177,7 @@ namespace XWord.soox.app
                 XDocument doc = new XDocument(_originalDocFile);
                 doc.ParseContents();
                 doc.SetupIdForRuns();
+                doc.saveAs(editDocFile);
             }
 
             string xpsForEdit = GetXpsFilePathForDocx(editDocFile);
