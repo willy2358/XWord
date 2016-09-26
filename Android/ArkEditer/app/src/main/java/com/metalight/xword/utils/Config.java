@@ -9,7 +9,7 @@ public class Config {
     }
 
     public static int getDocLastEditPageIndex(int docId){
-        return 1;
+        return 0;
     }
 
     public  static int getBatchFetchPageNumber(){

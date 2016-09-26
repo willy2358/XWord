@@ -99,7 +99,7 @@ public class DocViewer extends Activity {
 		task.execute(getDocPagesQueryUrl(docId,startPageIdx, endPageIdx ));
 	}
 
-	//ex url: http://localhost:8088/api/getDocPages/?docId=1&startPageIdx=1&endPageIdx=1
+	//ex url: http://localhost:8088/api/getDocPages/?docId=1&startPageIdx=0&endPageIdx=0
 	private String getDocPagesQueryUrl(int docId, int startPageIdx, int endPageIdx){
 		String url = String.format("http://%s/api/getDocPages/?docId=%d&startPageIdx=%d&endPageIdx=%d",
 				Config.getServerAddress(), docId, startPageIdx, endPageIdx );

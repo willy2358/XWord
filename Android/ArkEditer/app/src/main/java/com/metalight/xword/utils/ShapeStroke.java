@@ -21,7 +21,7 @@ public class ShapeStroke {
 	
 	private Shape_Type shapeType = 	Shape_Type.UNDEFINED;
 	
-	private int char_width = 10;
+	private int char_width = 20;
 	
 	public void addTrackPoint(PointF pt)
 	{

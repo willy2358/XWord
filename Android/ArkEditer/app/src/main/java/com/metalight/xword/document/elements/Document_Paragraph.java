@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 //paragraph, there is no CR(\r\n) in the paragraph text. 
 public class Document_Paragraph {
-	
+	private  float FONT_SIZE_FACTOR = 4;
 	private List<TextSegment> segments = new ArrayList<TextSegment>();
 	private  List<TextLine> _lines = new ArrayList<TextLine>();
 
@@ -24,8 +24,8 @@ public class Document_Paragraph {
 		String txtSeg = paraText;
 		TextSegment seg = new TextSegment();
 		Paint p = new Paint();
-		p.setColor(Color.RED);
-		p.setTextSize(20.0f);
+		p.setColor(Color.GREEN);
+		p.setTextSize(80.0f);
 
 		seg.setText(txtSeg, new PointF(10.0f, 10.0f), p);
 
@@ -36,12 +36,21 @@ public class Document_Paragraph {
 	public  void parse(JSONObject lineBlock){
 		try{
 			JSONObject jPos = lineBlock.getJSONObject("Position");
-			PointF pos = new PointF((float)jPos.getDouble("X"), (float)jPos.getDouble("Y"));
+			PointF pos = new PointF((float)jPos.getDouble("X") *3.8f, (float)jPos.getDouble("Y") * 3f);
+//			if (pos.y > 115){
+//				return;
+//			}
+
+			JSONObject jRun = lineBlock.getJSONObject("Run");
+			float size = (float)jRun.getDouble("FontSize");
+			int color = jRun.getInt("Color");
 			String text = lineBlock.getString("Text");
 			TextLine line = new TextLine(text);
 			Paint style = new Paint();
-			style.setColor(Color.RED);
-			style.setTextSize(30);
+
+			style.setColor(Color.argb(0xFF, Color.red(color), Color.green(color), Color.blue(color)));
+			//Color.parseColor(jRun.getString("Color"));
+			style.setTextSize(size * FONT_SIZE_FACTOR);
 			line.setPostion(pos, style);
 			this._lines.add(line);
 		}

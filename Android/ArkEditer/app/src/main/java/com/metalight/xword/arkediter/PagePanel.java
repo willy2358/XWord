@@ -33,7 +33,7 @@ public class PagePanel extends View {
 				PointF pt = new PointF(event.getX(), event.getY());
 				if (event.getAction() == MotionEvent.ACTION_DOWN)
 				{
-					curStroke = new ShapeStroke();	
+					curStroke = new ShapeStroke();
 					curStroke.addTrackPoint(pt);
 				}
 				else if (event.getAction() == MotionEvent.ACTION_UP)

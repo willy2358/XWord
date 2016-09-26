@@ -108,6 +108,12 @@ public class TextLine {
 	public void Draw(Canvas canvas)
 	{
 		canvas.drawText(line_text, line_position.x, line_position.y, line_style);
+
+		Rect rect = new Rect();
+		line_style.getTextBounds(line_text, 0, line_text.length(), rect);
+		Log.d("Measure", "Draw: " + line_text + ":width:" + rect.width());
+		Log.d("Measure", "Draw: " + line_text + ":height:" + rect.height());
+
 	}
 
 	public boolean inBound(Rect bound) {
