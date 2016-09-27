@@ -1,6 +1,7 @@
 package com.metalight.xword.arkediter;
 
 
+import com.metalight.xword.document.elements.Document_Page;
 import com.metalight.xword.document.elements.TextLine;
 import com.metalight.xword.document.types.Document;
 import com.metalight.xword.utils.ShapeStrokeManager;
@@ -81,9 +82,13 @@ public class PagePanel extends View {
 	}
 	
 	public TextLine[] GetTextLinesInBound(Rect bound) {
-		
-		return this.document.getCurrentPage().GetTextLinesInBound(bound);
-		
+
+		Document_Page page = document.getCurrentPage();
+		if (null != page)
+		{
+			return  page.GetTextLinesInBound(bound);
+		}
+		return  null;
 	}
 
 	public void setDocument(Document doc) {

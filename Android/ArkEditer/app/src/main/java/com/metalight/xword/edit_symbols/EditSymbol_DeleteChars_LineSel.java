@@ -23,7 +23,7 @@ public class EditSymbol_DeleteChars_LineSel extends EditSymbol {
 		TextLine[] lines = page.GetTextLinesInBound(bound);
 		
 		
-		return false;
+		return true;
 	}
 
 	@Override

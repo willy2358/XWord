@@ -40,6 +40,7 @@ public class ShapeStroke {
 	{
 		Paint paint = new Paint();
 		paint.setColor(Color.BLUE);
+		paint.setStrokeWidth(5);
 		for(int i = 0; i < points_track.size() - 1; i++)
 		{
 			PointF pt1 = points_track.get(i);
@@ -98,7 +99,7 @@ public class ShapeStroke {
 		VectorPoint ptS = this.points_track.get(0);
 		VectorPoint ptE = this.points_track.get(this.getPointCount() - 1);
 		
-		if (Math.abs(ptS.x - ptE.x) >= char_width/2 && Math.abs(ptS.y - ptE.y) < char_width/2)
+		if ((Math.abs(ptS.x - ptE.x) >= char_width/2) && (Math.abs(ptS.y - ptE.y) <= char_width/2))
 		{
 			return true;
 		}
