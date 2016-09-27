@@ -14,11 +14,9 @@ public class EditSymbolManager {
 		
 		EditSymbol symbol = TestWhetherAnWholeSymbol(stroke, page);
 		if (null != symbol){
-			
 			this._possibleSymbols.clear();
 			return symbol;
 		}
-		
 		return TestWhetherPartOnAnySymbol(stroke, page);
 	}
 	

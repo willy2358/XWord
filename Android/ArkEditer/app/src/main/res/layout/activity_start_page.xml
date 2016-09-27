@@ -18,11 +18,11 @@
         android:onClick="OnClickOpenNewDoc"
         android:text="@string/strOpenDoc" />
 
-    <Button
+<!--    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="82dp"
         android:onClick="OnClickTest"
-        android:text="test"></Button>
+        android:text="test"></Button>-->
 
 </RelativeLayout>

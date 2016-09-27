@@ -4,7 +4,6 @@ package com.metalight.xword.arkediter;
 //
 //import com.metalight.document.types.Document;
 
-import com.metalight.xword.document.types.Document;
 import com.metalight.xword.document.types.Document_Json;
 import com.metalight.xword.utils.Config;
 import com.metalight.xword.utils.ErrorCode;
@@ -12,6 +11,7 @@ import com.metalight.xword.utils.HttpTask;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.app.Activity;
@@ -29,7 +29,9 @@ import org.json.JSONObject;
 
 public class DocViewer extends Activity {
 	public final static  String DOC_ID = "DocId";
-	private PagePanel _pagePanel = null;
+	private PagePanel _pageEditPanel = null;
+	private EditResultViewer _editResultViewer = null;
+	LinearLayout _layout = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,12 +39,20 @@ public class DocViewer extends Activity {
 		
 		LinearLayout layout = (LinearLayout)findViewById(R.id.layoutDocView);
 		LinearLayout.LayoutParams lap = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		_layout = layout;
 
-		_pagePanel = new PagePanel(this);
-		_pagePanel.setLayoutParams(lap);
-		_pagePanel.setMinimumHeight(1500);
-		_pagePanel.setMinimumWidth(300);
-		layout.addView(_pagePanel);
+		_pageEditPanel = new PagePanel(this);
+		_pageEditPanel.setLayoutParams(lap);
+		_pageEditPanel.setMinimumHeight(1500);
+		_pageEditPanel.setMinimumWidth(300);
+
+		_editResultViewer = new EditResultViewer(this);
+		_editResultViewer.setLayoutParams(lap);
+		_editResultViewer.setMinimumHeight(1500);
+		_editResultViewer.setMinimumWidth(300);
+		//_editResultViewer.setVisibility(View.INVISIBLE);
+		//layout.addView(_editResultViewer);
+		layout.addView(_pageEditPanel);
 
 		Intent intent = getIntent();
 		int docId = intent.getIntExtra(DocViewer.DOC_ID, 1);
@@ -52,13 +62,24 @@ public class DocViewer extends Activity {
 
 /*		Document doc = Document.CreateDocument(file);
 		if (null != doc){
-			_pagePanel.setDocument(doc);
+			_pageEditPanel.setDocument(doc);
 		}*/
 		
 
 	}
 
+	public  void backToEditPanel(View view){
+		_layout.removeView(_editResultViewer);
+		_layout.addView(_pageEditPanel);
+	}
+	public  void previewEditResults(View view)
+	{
+		_layout.removeView(_pageEditPanel);
+		_layout.addView(_editResultViewer);
+		//_pageEditPanel.setVisibility(View.INVISIBLE);
 
+		//_editResultViewer.setVisibility(View.VISIBLE);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,7 +92,7 @@ public class DocViewer extends Activity {
 		Document_Json docJson = new Document_Json("");
 		docJson.setPagesJson(jsonPages);
 		docJson.loadContents();
-		_pagePanel.setDocument(docJson);
+		_pageEditPanel.setDocument(docJson);
 	}
 
 	private  void fetchDocPagesDataAsync(int docId, int startPageIdx, int endPageIdx)
