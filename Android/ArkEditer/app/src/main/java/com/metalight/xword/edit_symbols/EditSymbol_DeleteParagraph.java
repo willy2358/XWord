@@ -1,15 +1,11 @@
 package com.metalight.xword.edit_symbols;
 
-import java.util.List;
-
 import com.metalight.xword.utils.ShapeStroke;
-import com.metalight.xword.arkediter.PagePanel;
-
-import android.graphics.PointF;
+import com.metalight.xword.arkediter.DocPagePanel_Editable;
 
 public class EditSymbol_DeleteParagraph extends EditSymbol {
 
-	public EditSymbol_DeleteParagraph(ShapeStroke stroke, PagePanel page) {
+	public EditSymbol_DeleteParagraph(ShapeStroke stroke, DocPagePanel_Editable page) {
 		super(stroke, page);
 		// TODO Auto-generated constructor stub
 	}

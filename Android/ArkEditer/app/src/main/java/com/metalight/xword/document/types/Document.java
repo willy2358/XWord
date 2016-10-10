@@ -17,6 +17,7 @@ public abstract class Document {
 	{
 		this.fileName = fileName;
 	}
+	protected int _currentPageIdx = 0;
 	
 	@SuppressLint("DefaultLocale")
 	public static Document CreateDocument(String filename)
@@ -65,7 +66,12 @@ public abstract class Document {
 		return this.fileName;
 		
 	}
-	
+
+	public void setCurrentPageIdx(int pageIdx){
+		this._currentPageIdx = pageIdx;
+		//to to trigger to redraw
+	}
+
 	public Document_Page getCurrentPage()
 	{
 		return null;

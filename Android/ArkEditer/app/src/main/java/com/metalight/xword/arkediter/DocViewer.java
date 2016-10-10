@@ -29,8 +29,8 @@ import org.json.JSONObject;
 
 public class DocViewer extends Activity {
 	public final static  String DOC_ID = "DocId";
-	private PagePanel _pageEditPanel = null;
-	private EditResultViewer _editResultViewer = null;
+	private DocPagePanel_Editable _pageEditPanel = null;
+	private DocPagePanel _editResultPanel = null;
 	LinearLayout _layout = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +41,26 @@ public class DocViewer extends Activity {
 		LinearLayout.LayoutParams lap = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		_layout = layout;
 
-		_pageEditPanel = new PagePanel(this);
+		Intent intent = getIntent();
+		int docId = intent.getIntExtra(DocViewer.DOC_ID, 1);
+		_pageEditPanel = new DocPagePanel_Editable(this);
 		_pageEditPanel.setLayoutParams(lap);
 		_pageEditPanel.setMinimumHeight(1500);
 		_pageEditPanel.setMinimumWidth(300);
+		_pageEditPanel.setDocId(docId);
+		_pageEditPanel.setGetPageDataUrl(String.format("http://%s/api/getDocPages/?",Config.getServerAddress()));
 
-		_editResultViewer = new EditResultViewer(this);
-		_editResultViewer.setLayoutParams(lap);
-		_editResultViewer.setMinimumHeight(1500);
-		_editResultViewer.setMinimumWidth(300);
-		//_editResultViewer.setVisibility(View.INVISIBLE);
-		//layout.addView(_editResultViewer);
+		_editResultPanel = new DocPagePanel(this);
+		_editResultPanel.setLayoutParams(lap);
+		_editResultPanel.setMinimumHeight(1500);
+		_editResultPanel.setMinimumWidth(300);
+		_editResultPanel.setDocId(docId);
+		_editResultPanel.setGetPageDataUrl(String.format("http://%s/api/PreviewDocChanges/?",Config.getServerAddress()));
+		//_editResultPanel.setVisibility(View.INVISIBLE);
+		//layout.addView(_editResultPanel);
 		layout.addView(_pageEditPanel);
 
-		Intent intent = getIntent();
-		int docId = intent.getIntExtra(DocViewer.DOC_ID, 1);
+
 		int startIdx = Config.getDocLastEditPageIndex(docId);
 		int endIdx = startIdx + Config.getBatchFetchPageNumber() - 1;
 		fetchDocOriginPagesDataAsync(docId, startIdx, endIdx);
@@ -69,17 +74,18 @@ public class DocViewer extends Activity {
 	}
 
 	public  void backToEditPanel(View view){
-		_layout.removeView(_editResultViewer);
+		_layout.removeView(_editResultPanel);
 		_layout.addView(_pageEditPanel);
 	}
 	public  void previewEditResults(View view)
 	{
-		fetchDocEditedPagesDataAsync(1,0,0);
 		_layout.removeView(_pageEditPanel);
-		_layout.addView(_editResultViewer);
+		_layout.addView(_editResultPanel);
+
+		fetchDocEditedPagesDataAsync(1,0,0);
 		//_pageEditPanel.setVisibility(View.INVISIBLE);
 
-		//_editResultViewer.setVisibility(View.VISIBLE);
+		//_editResultPanel.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -100,7 +106,7 @@ public class DocViewer extends Activity {
 			Document_Json docJson = new Document_Json("");
 			docJson.setPagesJson(jsonPages);
 			docJson.loadContents();
-			_editResultViewer.setDocument(docJson);
+			_editResultPanel.setDocument(docJson);
 	}
 
 	private  void fetchDocEditedPagesDataAsync(int docId, int startPageIdx, int endPageIdx)

@@ -3,13 +3,13 @@ package com.metalight.xword.edit_symbols;
 
 import com.metalight.xword.document.elements.*;
 import com.metalight.xword.utils.*;
-import com.metalight.xword.arkediter.PagePanel;
+import com.metalight.xword.arkediter.DocPagePanel_Editable;
 
 import android.graphics.Rect;
 
 public class EditSymbol_DeleteChars_LineSel extends EditSymbol {
 
-	public EditSymbol_DeleteChars_LineSel(ShapeStroke stroke, PagePanel page) {
+	public EditSymbol_DeleteChars_LineSel(ShapeStroke stroke, DocPagePanel_Editable page) {
 		super(stroke, page);
 	}
 

@@ -1,11 +1,11 @@
 package com.metalight.xword.edit_symbols;
 
 import com.metalight.xword.utils.ShapeStroke;
-import com.metalight.xword.arkediter.PagePanel;
+import com.metalight.xword.arkediter.DocPagePanel_Editable;
 
 public class EditSymbol_DeleteChars_RectSel extends EditSymbol {
 
-	public EditSymbol_DeleteChars_RectSel(ShapeStroke stroke, PagePanel page) {
+	public EditSymbol_DeleteChars_RectSel(ShapeStroke stroke, DocPagePanel_Editable page) {
 		super(stroke, page);
 		// TODO Auto-generated constructor stub
 	}

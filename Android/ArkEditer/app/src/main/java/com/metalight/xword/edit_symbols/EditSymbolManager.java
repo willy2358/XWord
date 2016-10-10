@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.metalight.xword.utils.ShapeStroke;
-import com.metalight.xword.arkediter.PagePanel;
+import com.metalight.xword.arkediter.DocPagePanel_Editable;
 
 public class EditSymbolManager {
 	
 	private List<EditSymbol> _possibleSymbols = new ArrayList<EditSymbol>();
 	
-	public EditSymbol ParseShapeStroke(ShapeStroke stroke,PagePanel page){
+	public EditSymbol ParseShapeStroke(ShapeStroke stroke, DocPagePanel_Editable page){
 		
 		EditSymbol symbol = TestWhetherAnWholeSymbol(stroke, page);
 		if (null != symbol){
@@ -20,7 +20,7 @@ public class EditSymbolManager {
 		return TestWhetherPartOnAnySymbol(stroke, page);
 	}
 	
-	private EditSymbol TestWhetherPartOnAnySymbol(ShapeStroke stroke, PagePanel page) {
+	private EditSymbol TestWhetherPartOnAnySymbol(ShapeStroke stroke, DocPagePanel_Editable page) {
 		EditSymbol symbol = new EditSymbol_DeleteChars_LineSel(stroke, page);
 		if (symbol.IsMyPart()){
 			_possibleSymbols.add(symbol);
@@ -39,7 +39,7 @@ public class EditSymbolManager {
 		}
 	}
 
-	private EditSymbol TestWhetherAnWholeSymbol(ShapeStroke stroke, PagePanel page){
+	private EditSymbol TestWhetherAnWholeSymbol(ShapeStroke stroke, DocPagePanel_Editable page){
 		
 		EditSymbol symbol = new EditSymbol_DeleteChars_LineSel(stroke, page);
 		if (symbol.IsMyType()){

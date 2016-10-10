@@ -18,7 +18,11 @@ public class Document_Page {
 			para.Draw(canvas);
 		}
 	}
-	
+
+	public  int getPageOrder()
+	{
+		return  _pageOrder;
+	}
 	public boolean parseParagraphs(String contents){
 		Document_Paragraph para = new Document_Paragraph();
 		if (para.parseSegments(contents)){
