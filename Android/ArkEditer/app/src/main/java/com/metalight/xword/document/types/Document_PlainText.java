@@ -27,7 +27,7 @@ public class Document_PlainText extends Document {
 			//remain refine
 			Document_Page page = new Document_Page();
 			if (page.parseParagraphs(txt)){
-				this.pages.add(page);
+				this._pages.add(page);
 			}
 			
 			fin.close();

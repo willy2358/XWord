@@ -5,20 +5,19 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.metalight.xword.document.elements.Document_Page;
 
 
 public abstract class Document {
 	
-	protected List<Document_Page> pages = new ArrayList<Document_Page>();
+	protected List<Document_Page> _pages = new ArrayList<Document_Page>();
 	public Document(String fileName)
 	{
 		this.fileName = fileName;
 	}
 	protected int _currentPageIdx = 0;
-	
+
 	@SuppressLint("DefaultLocale")
 	public static Document CreateDocument(String filename)
 	{
@@ -51,11 +50,22 @@ public abstract class Document {
 	public abstract boolean loadContents();
 	
 	public void draw(Canvas canvas){
-		for(Document_Page page : this.pages){
+		for(Document_Page page : this._pages){
 			page.Draw(canvas);
 		}
 	}
-	
+
+	public boolean hasPageFetched(int pageIdx){
+		for(Document_Page p : _pages)
+		{
+			if (p.getPageOrder() == pageIdx)
+			{
+				return  true;
+			}
+		}
+
+		return  false;
+	}
 	public void setFileName(String filename)
 	{
 		this.fileName = filename;
