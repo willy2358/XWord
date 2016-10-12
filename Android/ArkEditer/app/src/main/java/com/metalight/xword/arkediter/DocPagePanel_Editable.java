@@ -77,7 +77,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 	
 	public TextLine[] GetTextLinesInBound(Rect bound) {
 
-		Document_Page page = document.getCurrentPage();
+		Document_Page page = document.getPage(_currentPageIdx);
 		if (null != page)
 		{
 			return  page.GetTextLinesInBound(bound);

@@ -63,6 +63,7 @@ public class DocViewer extends Activity {
 
         int startIdx = Config.getDocLastEditPageIndex(docId);
 		_pageEditPanel.displayPageContent(startIdx);
+		_editResultPanel.displayPageContent(startIdx);
 		//_pageEditPanel.invalidate();
 //		int endIdx = startIdx + Config.getBatchFetchPageNumber() - 1;
 //		fetchDocOriginPagesDataAsync(docId, startIdx, endIdx);

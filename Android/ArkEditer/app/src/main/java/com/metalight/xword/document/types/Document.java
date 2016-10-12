@@ -16,7 +16,7 @@ public abstract class Document {
 	{
 		this.fileName = fileName;
 	}
-	protected int _currentPageIdx = 0;
+	//protected int _currentPageIdx = 0;
 
 	@SuppressLint("DefaultLocale")
 	public static Document CreateDocument(String filename)
@@ -55,6 +55,15 @@ public abstract class Document {
 		}
 	}
 
+	public Document_Page getPage(int pageIdx)
+	{
+		if (null == _pages || pageIdx < 0 || pageIdx >= _pages.size())
+		{
+			return  null;
+		}
+
+		return  _pages.get(pageIdx);
+	}
 	public boolean hasPageFetched(int pageIdx){
 		for(Document_Page p : _pages)
 		{
@@ -77,16 +86,16 @@ public abstract class Document {
 		
 	}
 
-	public void setCurrentPageIdx(int pageIdx){
-		this._currentPageIdx = pageIdx;
-		//to to trigger to redraw
-	}
+//	public void setCurrentPageIdx(int pageIdx){
+//		this._currentPageIdx = pageIdx;
+//		//to to trigger to redraw
+//	}
 
-	public Document_Page getCurrentPage()
-	{
-		return null;
-	}
-	
+//	public Document_Page getCurrentPage()
+//	{
+//		return null;
+//	}
+//
 	
 	private String fileName;
 

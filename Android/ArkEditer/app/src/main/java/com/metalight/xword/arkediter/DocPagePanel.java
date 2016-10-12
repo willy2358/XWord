@@ -38,7 +38,12 @@ public class DocPagePanel extends View {
     {
         if (null != document){
             //this.document.draw(canvas);
-            displayPageContent(_currentPageIdx);
+            //displayPageContent(_currentPageIdx);
+            Document_Page page = this.document.getPage(_currentPageIdx);
+            if (null != page)
+            {
+                page.Draw(canvas);
+            }
         }
     }
 
@@ -47,12 +52,10 @@ public class DocPagePanel extends View {
         if (!document.hasPageFetched(pageIdx))
         {
             fetchPageContent(pageIdx, pageIdx + PAGE_CACHE_COUNT);
-            this.document.setCurrentPageIdx(pageIdx);
         }
-        else
-        {
-            this.document.setCurrentPageIdx(pageIdx);
-        }
+
+        //this.document.setCurrentPageIdx(pageIdx);
+        this.invalidate();
     }
 
     protected void updateDocument(JSONArray jsonPages)
