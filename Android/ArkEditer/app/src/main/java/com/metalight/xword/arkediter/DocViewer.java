@@ -56,24 +56,12 @@ public class DocViewer extends Activity {
 		_editResultPanel.setMinimumWidth(300);
 		_editResultPanel.setDocId(docId);
 		_editResultPanel.setGetPageDataUrl(String.format("http://%s/api/PreviewDocChanges/?",Config.getServerAddress()));
-		//_editResultPanel.setVisibility(View.INVISIBLE);
-		//layout.addView(_editResultPanel);
 		layout.addView(_pageEditPanel);
 
 
         int startIdx = Config.getDocLastEditPageIndex(docId);
 		_pageEditPanel.displayPageContent(startIdx);
 		_editResultPanel.displayPageContent(startIdx);
-		//_pageEditPanel.invalidate();
-//		int endIdx = startIdx + Config.getBatchFetchPageNumber() - 1;
-//		fetchDocOriginPagesDataAsync(docId, startIdx, endIdx);
-
-/*		Document doc = Document.CreateDocument(file);
-		if (null != doc){
-			_pageEditPanel.setDocument(doc);
-		}*/
-		
-
 	}
 
 	public  void backToEditPanel(View view){
@@ -88,10 +76,6 @@ public class DocViewer extends Activity {
 		_layout.addView(_editResultPanel);
 		_editResultPanel.invalidate();
 
-		//fetchDocEditedPagesDataAsync(1,0,0);
-		//_pageEditPanel.setVisibility(View.INVISIBLE);
-
-		//_editResultPanel.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -100,85 +84,4 @@ public class DocViewer extends Activity {
 		getMenuInflater().inflate(R.menu.doc_viewer, menu);
 		return true;
 	}
-
-//	private  void renderPagesText(JSONArray jsonPages){
-//		Document_Json docJson = new Document_Json("");
-//		docJson.setPagesJson(jsonPages);
-//		docJson.loadContents();
-//		_pageEditPanel.setDocument(docJson);
-//	}
-
-//	private void renderEditedPages(JSONArray jsonPages){
-//			Document_Json docJson = new Document_Json("");
-//			docJson.setPagesJson(jsonPages);
-//			docJson.loadContents();
-//			_editResultPanel.setDocument(docJson);
-//	}
-
-//	private  void fetchDocEditedPagesDataAsync(int docId, int startPageIdx, int endPageIdx)
-//	{
-//		HttpTask task = new HttpTask();
-//		task.setTaskHandler(new HttpTask.HttpTaskHandler(){
-//			public void taskSuccessful(String json) {
-//				try {
-//					JSONObject jObject = new JSONObject(json);
-//					if (0 == jObject.getString("ErrorMsg").compareToIgnoreCase(ErrorCode.ERROR_OK)){
-//						renderEditedPages(jObject.getJSONArray("Pages"));
-//					}
-//				}
-//				catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			public void taskFailed() {
-//			}
-//		});
-///*		int docId = 1;
-//		String server = Config.getServerAddress();
-//		int startIdx = Config.getDocLastEditPageIndex(docId);
-//		int endIdx = startIdx + Config.getBatchFetchPageNumber() - 1;*/
-//		task.execute(getDocEditedPagesQueryUrl(docId,startPageIdx, endPageIdx ));
-//	}
-//
-//	private  void fetchDocOriginPagesDataAsync(int docId, int startPageIdx, int endPageIdx)
-//	{
-//		HttpTask task = new HttpTask();
-//		task.setTaskHandler(new HttpTask.HttpTaskHandler(){
-//			public void taskSuccessful(String json) {
-//				try {
-//					JSONObject jObject = new JSONObject(json);
-//					if (0 == jObject.getString("ErrorMsg").compareToIgnoreCase(ErrorCode.ERROR_OK)){
-//						renderPagesText(jObject.getJSONArray("Pages"));
-//					}
-//				}
-//				catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			public void taskFailed() {
-//			}
-//		});
-///*		int docId = 1;
-//		String server = Config.getServerAddress();
-//		int startIdx = Config.getDocLastEditPageIndex(docId);
-//		int endIdx = startIdx + Config.getBatchFetchPageNumber() - 1;*/
-//		task.execute(getDocOriginPagesQueryUrl(docId,startPageIdx, endPageIdx ));
-//	}
-//
-//	//ex url: http://localhost:8088/api/getDocPages/?docId=1&startPageIdx=0&endPageIdx=0
-//	private String getDocOriginPagesQueryUrl(int docId, int startPageIdx, int endPageIdx){
-//		String url = String.format("http://%s/api/getDocPages/?docId=%d&startPageIdx=%d&endPageIdx=%d",
-//				Config.getServerAddress(), docId, startPageIdx, endPageIdx );
-//
-//		return  url;
-//	}
-//
-//	//ex upload edit: http://localhost:8088/api/EditDocPage/?docId=1&pageIdx=0&runId=1&editType=3&oldPartText=童年&newPartText=亲戚&editTrack=1,2
-//	//ex url:http://localhost:8088/api/PreviewDocChanges/?docId=1&startPageIdx=0&endPageIdx=0
-//	private String getDocEditedPagesQueryUrl(int docId, int startPageIdx, int endPageIdx){
-//		String url = String.format("http://%s/api/PreviewDocChanges/?docId=%d&startPageIdx=%d&endPageIdx=%d",
-//				Config.getServerAddress(), docId, startPageIdx, endPageIdx );
-//
-//		return  url;
-//	}
 }

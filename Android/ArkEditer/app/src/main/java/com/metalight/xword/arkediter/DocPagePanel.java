@@ -37,8 +37,6 @@ public class DocPagePanel extends View {
     public void onDraw(Canvas canvas)
     {
         if (null != document){
-            //this.document.draw(canvas);
-            //displayPageContent(_currentPageIdx);
             Document_Page page = this.document.getPage(_currentPageIdx);
             if (null != page)
             {
@@ -54,7 +52,6 @@ public class DocPagePanel extends View {
             fetchPageContent(pageIdx, pageIdx + PAGE_CACHE_COUNT);
         }
 
-        //this.document.setCurrentPageIdx(pageIdx);
         this.invalidate();
     }
 
@@ -88,10 +85,6 @@ public class DocPagePanel extends View {
     public void fetchPageContent(int startPageIdx, int endPageIdx){
         fetchDocEditedPagesDataAsync(_docId, startPageIdx, endPageIdx);
     }
-
-    //public void setDocument(Document doc) {
-//        this.document = doc;
-//    }
 
     public void setDocId(int docId){ this._docId = docId;}
 
