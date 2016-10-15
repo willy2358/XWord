@@ -1,6 +1,8 @@
 package com.metalight.xword.arkediter;
 import com.metalight.xword.document.elements.Document_Page;
 import com.metalight.xword.document.elements.TextLine;
+import com.metalight.xword.edit_symbols.EditSymbol;
+import com.metalight.xword.edit_symbols.EditSymbolManager;
 import com.metalight.xword.utils.ErrorCode;
 import com.metalight.xword.utils.HttpTask;
 import com.metalight.xword.utils.ShapeStrokeManager;
@@ -22,25 +24,11 @@ import java.util.LinkedList;
 public class DocPagePanel_Editable extends DocPagePanel {
 	
 	private ShapeStrokeManager strokeMgr = new ShapeStrokeManager();
+	private EditSymbolManager symbolMgr = new EditSymbolManager();
 	private ShapeStroke curStroke = null;
 	private boolean _appExit = false;
-    private LinkedList<ShapeStroke> _waitingUploadStrokes = new LinkedList<ShapeStroke>();
+    private LinkedList<EditSymbol> _unExedSymbols = new LinkedList<EditSymbol>();
 	private String _editCommandUrl;
-//	public Handler mHandler=new Handler()
-//	{
-//		public void handleMessage(Message msg)
-//		{
-//			switch(msg.what)
-//			{
-//				case 1:
-//					break;
-//				default:
-//					break;
-//			}
-//			super.handleMessage(msg);
-//		}
-//	};
-
 	public DocPagePanel_Editable(Context context)
 	{
 		super(context);
@@ -59,8 +47,11 @@ public class DocPagePanel_Editable extends DocPagePanel {
 				else if (event.getAction() == MotionEvent.ACTION_UP)
 				{
 					curStroke.addTrackPoint(pt);
-					strokeMgr.AddShapeStroke(curStroke, page);
-					_waitingUploadStrokes.offer(curStroke);
+					EditSymbol editSymbol = symbolMgr.ParseShapeStroke(curStroke, page);
+					if (null != editSymbol) {
+						strokeMgr.addStroke(curStroke);
+					}
+					_unExedSymbols.offer(editSymbol);
 					curStroke = null;
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE)
@@ -83,9 +74,9 @@ public class DocPagePanel_Editable extends DocPagePanel {
 			@Override
 			public void run(){
 				while(!_appExit){
-					ShapeStroke stroke = _waitingUploadStrokes.poll();
-					if (null != stroke){
-						executeStrokeEditCommand(stroke);
+					EditSymbol symbol = _unExedSymbols.poll();
+					if (null != symbol){
+						executeStrokeEditCommand(symbol);
 					}
 					Log.d("TEST", "run: ");
 					SystemClock.sleep(100);
@@ -95,15 +86,15 @@ public class DocPagePanel_Editable extends DocPagePanel {
 		thread.start();
 	}
 
-	private void executeStrokeEditCommand(final ShapeStroke stroke){
-		EditCommand cmd = parseShapeStrokeToEditCommand(stroke);
+	private void executeStrokeEditCommand(final EditSymbol symbol){
+		EditCommand cmd = parseShapeStrokeToEditCommand(symbol);
 		HttpTask task = new HttpTask();
 		task.setTaskHandler(new HttpTask.HttpTaskHandler() {
 			public void taskSuccessful(String json) {
 				try {
 					JSONObject jObject = new JSONObject(json);
 					if (0 != jObject.getString("ErrorMsg").compareToIgnoreCase(ErrorCode.ERROR_OK)) {
-						_waitingUploadStrokes.offer(stroke);  //may be successful next time
+						_unExedSymbols.offer(symbol);  //may be successful next time
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -123,7 +114,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 
 		return url;
 	}
-	private EditCommand parseShapeStrokeToEditCommand(ShapeStroke stroke){
+	private EditCommand parseShapeStrokeToEditCommand(EditSymbol symbol){
 		return  new EditCommand();
 	}
 
