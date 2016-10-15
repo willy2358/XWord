@@ -13,11 +13,11 @@ namespace soox.user
         //private List<XLineBlock> _lineBlocks = new List<XLineBlock>();
         private XLineBlockCollection _lineBlocks = new XLineBlockCollection();
 
-        [JsonSerializeAttribute("pageOrder")]
-        public int PageOrder { get; private set; }
-        public XPage2(int pageOrder)
+        [JsonSerializeAttribute("pageNumber")]
+        public int PageNum { get; private set; }
+        public XPage2(int pageNum)
         {
-            this.PageOrder = pageOrder;
+            this.PageNum = pageNum;
         }
 
         [JsonSerializeAttribute("AddLineBlock")]
