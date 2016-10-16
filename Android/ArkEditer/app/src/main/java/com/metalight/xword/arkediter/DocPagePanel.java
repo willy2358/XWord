@@ -43,10 +43,36 @@ public class DocPagePanel extends View {
                 page.Draw(canvas);
             }
         }
-//        Paint style = new Paint();
-//        style.setColor(Color.GREEN);
-//        canvas.drawText("0,0", 0, 0, style);
-//        canvas.drawRect(0,0, 100, 200, style);
+        //TestDraw(canvas);
+    }
+
+    private void TestDraw(Canvas canvas) {
+        Paint style = new Paint();
+        style.setColor(Color.GREEN);
+        int i = 0;
+        Paint style2 = new Paint();
+        style2.setColor(Color.BLUE);
+
+        Paint styleT = new Paint();
+        styleT.setColor(Color.RED);
+        styleT.setTextSize(40);
+        int size = 300;
+        for(int x = 0; x < 5000; x += size){
+            for(int y = 0; y < 5000; y +=size){
+
+                String text = String.format("%d,%d",x,y);
+                if (i % 2 == 0){
+                    canvas.drawText(text, x, y, styleT);
+
+                    canvas.drawRect(x,y, x+size, y+size, style);
+                }
+                else{
+                    canvas.drawText(text, x, y, styleT);
+                    canvas.drawRect(x,y, x+size, y+size, style2);
+                }
+                i++;
+            }
+        }
     }
 
     public  void displayPageContent(int pageIdx){

@@ -149,19 +149,23 @@ public class TextLine {
 	public Pair<String, Integer> getTextInBound(Rect bound){
 		String text = "";
 		int startIdx = 0;
+		int xOffset = (int)line_position.x;
+		int yOffset = (int)line_position.y;
 		for(int i = 0;i < line_text.length() - 1;i++){
 			Rect rect = new Rect();
 			line_style.getTextBounds(line_text, i, i+1, rect);
-			rect.offset((int)line_position.x, (int)line_position.y);
+			rect.offset(xOffset, yOffset);
 			if (bound.intersect(rect) || bound.contains(rect)){
 				if (text.length() < 1) {
 					startIdx = i;
 				}
-				text +=line_text.substring(i,i);
+				text +=line_text.substring(i,i+1);
 			}
 			else if (text.length() > 0){
 				break;
 			}
+			xOffset += rect.width();
+			//yOffset += rect.height();
 		}
 		if (text.length() < 1) {
 			return  null;

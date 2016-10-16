@@ -17,6 +17,12 @@ import org.json.JSONObject;
 //paragraph, there is no CR(\r\n) in the paragraph text. 
 public class Document_Paragraph {
 	private  float FONT_SIZE_FACTOR = 4;
+	private double document_setting_width = 11906 / 20;
+	private double document_setting_height=16838/20;
+	private double view_setting_width = 2048;
+	private double view_setting_height = 1536;
+	private float x_factor = 2048 / (11906 / 20);
+	//private float y_factor = 1536/()
 	private List<TextSegment> segments = new ArrayList<TextSegment>();
 	private  List<TextLine> _lines = new ArrayList<TextLine>();
     private Document_Page _parentPage;
@@ -44,7 +50,7 @@ public class Document_Paragraph {
 	public  void parse(JSONObject lineBlock){
 		try{
 			JSONObject jPos = lineBlock.getJSONObject("Position");
-			PointF pos = new PointF((float)jPos.getDouble("X") *3.8f, (float)jPos.getDouble("Y") * 3f);
+			PointF pos = new PointF((float)jPos.getDouble("X") * x_factor, (float)jPos.getDouble("Y") * 3f);
 			JSONObject jRun = lineBlock.getJSONObject("Run");
 			float size = (float)jRun.getDouble("FontSize");
 			int color = jRun.getInt("Color");

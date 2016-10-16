@@ -5,7 +5,7 @@ package com.metalight.xword.utils;
  */
 public class StringUtil {
     public static String getUniqueSubString(String testString, String partSubStr, int startIdx){
-        int end = startIdx + partSubStr.length() - 1;
+        int end = startIdx + partSubStr.length();
         while(true){
             String testPart = testString.substring(startIdx, end);
             int idx1 = testString.indexOf(testPart);
