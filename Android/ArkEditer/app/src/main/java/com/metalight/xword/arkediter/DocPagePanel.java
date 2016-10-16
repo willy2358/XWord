@@ -43,6 +43,10 @@ public class DocPagePanel extends View {
                 page.Draw(canvas);
             }
         }
+//        Paint style = new Paint();
+//        style.setColor(Color.GREEN);
+//        canvas.drawText("0,0", 0, 0, style);
+//        canvas.drawRect(0,0, 100, 200, style);
     }
 
     public  void displayPageContent(int pageIdx){
@@ -86,7 +90,10 @@ public class DocPagePanel extends View {
         fetchDocEditedPagesDataAsync(_docId, startPageIdx, endPageIdx);
     }
 
-    public void setDocId(int docId){ this._docId = docId;}
+    public void setDocId(int docId) {
+        this.document.setDocmentId(docId);
+        this._docId = docId;
+    }
 
     public void setGetPageDataUrl(String url){ this._getPageDataApiUrl = url;}
 

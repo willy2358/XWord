@@ -182,7 +182,27 @@ public class ShapeStroke {
 
 
 	public Rect getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+		Rect rect = new Rect(99999, 99999, 0, 0);
+		for(int i = 0; i < points_track.size(); i++) {
+			VectorPoint pt = points_track.get(i);
+//			String log = String.format("%d : %f, %f; %s:%f, %s:%f, turn:%d", i, pt.x, pt.y, pt.horz_dir.toString(),pt.horz_delt,
+//					pt.vert_dir.toString(), pt.vert_delt, pt.isTurnPoint()? 1 : 0);
+//			Log.d("point", log);
+			if (pt.x < rect.left){
+				rect.left = (int)pt.x;
+			}
+			if (pt.x > rect.right){
+				rect.right = (int)pt.x;
+			}
+			if(pt.y < rect.top){
+				rect.top = (int)pt.y;
+			}
+			if(pt.y > rect.bottom){
+				rect.bottom = (int)pt.y;
+
+			}
+		}
+
+		return rect;
 	}
 }

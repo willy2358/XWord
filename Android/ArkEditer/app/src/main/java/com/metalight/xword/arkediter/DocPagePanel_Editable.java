@@ -1,9 +1,11 @@
 package com.metalight.xword.arkediter;
 import com.metalight.xword.document.elements.Document_Page;
+import com.metalight.xword.document.elements.Document_Paragraph;
 import com.metalight.xword.document.elements.TextLine;
+import com.metalight.xword.document.types.Document;
 import com.metalight.xword.edit_symbols.EditSymbol;
 import com.metalight.xword.edit_symbols.EditSymbolManager;
-import com.metalight.xword.utils.ErrorCode;
+import com.metalight.xword.edit_symbols.SymbolCommand;
 import com.metalight.xword.utils.HttpTask;
 import com.metalight.xword.utils.ShapeStrokeManager;
 import com.metalight.xword.utils.ShapeStroke;
@@ -29,8 +31,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 	private boolean _appExit = false;
     private LinkedList<EditSymbol> _unExedSymbols = new LinkedList<EditSymbol>();
 	private String _editCommandUrl;
-	public DocPagePanel_Editable(Context context)
-	{
+	public DocPagePanel_Editable(Context context) {
 		super(context);
 		final DocPagePanel_Editable page = this;
 		setOnTouchListener(new OnTouchListener()
@@ -50,8 +51,8 @@ public class DocPagePanel_Editable extends DocPagePanel {
 					EditSymbol editSymbol = symbolMgr.ParseShapeStroke(curStroke, page);
 					if (null != editSymbol) {
 						strokeMgr.addStroke(curStroke);
+						_unExedSymbols.offer(editSymbol);
 					}
-					_unExedSymbols.offer(editSymbol);
 					curStroke = null;
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE)
@@ -76,7 +77,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 				while(!_appExit){
 					EditSymbol symbol = _unExedSymbols.poll();
 					if (null != symbol){
-						executeStrokeEditCommand(symbol);
+						executeEditSymbol(symbol);
 					}
 					Log.d("TEST", "run: ");
 					SystemClock.sleep(100);
@@ -86,36 +87,42 @@ public class DocPagePanel_Editable extends DocPagePanel {
 		thread.start();
 	}
 
-	private void executeStrokeEditCommand(final EditSymbol symbol){
-		EditCommand cmd = parseShapeStrokeToEditCommand(symbol);
-		HttpTask task = new HttpTask();
-		task.setTaskHandler(new HttpTask.HttpTaskHandler() {
-			public void taskSuccessful(String json) {
-				try {
-					JSONObject jObject = new JSONObject(json);
-					if (0 != jObject.getString("ErrorMsg").compareToIgnoreCase(ErrorCode.ERROR_OK)) {
-						_unExedSymbols.offer(symbol);  //may be successful next time
+	private void executeEditSymbol(final EditSymbol symbol){
+		for(SymbolCommand cmd : symbol.getEditCommands()){
+			//EditCommand cmd = parseShapeStrokeToEditCommand(symbol);
+			HttpTask task = new HttpTask();
+			task.setTaskHandler(new HttpTask.HttpTaskHandler() {
+				public void taskSuccessful(String json) {
+					try {
+						JSONObject jObject = new JSONObject(json);
+//						if (0 != jObject.getString("ErrorMsg").compareToIgnoreCase(ErrorCode.ERROR_OK)) {
+//							_unExedSymbols.offer(symbol);  //may be successful next time
+//						}
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
 				}
-			}
 
-			public void taskFailed() {
-			}
-		});
+				public void taskFailed() {
+				}
+			});
 
-		task.execute(makeEditCommandUrl(cmd ));
+			task.execute(makeEditCommandUrl(cmd ));
+		}
+
 	}
 
-	private  String makeEditCommandUrl(EditCommand cmd){
+	private  String makeEditCommandUrl(SymbolCommand cmd){
+		TextLine line = cmd.getAffectedTextLine();
+		Document_Paragraph para = line.getParentParaghaph();
+		Document_Page page = para.getParentPage();
+		Document doc = page.getParentDocument();
+
 		String url = String.format("%sdocId=%d&pageIdx=%d&runId%d&editType=%d&oldPartText=%s&newPartText=%s&editTrack=%s",
-				     _editCommandUrl, cmd.DocId, cmd.PageIdx, cmd.RunId, cmd.EditType, cmd.OldText, cmd.NewText,cmd.TrackData);
+				     _editCommandUrl, doc.getDocumentId(), page.getPageNumber(), line.getRunId(), cmd.getEditType(),
+				     cmd.getAffectedTextString(), cmd.getTextStringReplacement(),cmd.getTrackData());
 
 		return url;
-	}
-	private EditCommand parseShapeStrokeToEditCommand(EditSymbol symbol){
-		return  new EditCommand();
 	}
 
 	@Override

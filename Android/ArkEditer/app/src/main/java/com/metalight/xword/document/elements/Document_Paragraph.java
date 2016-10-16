@@ -3,6 +3,7 @@ package com.metalight.xword.document.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.metalight.xword.document.types.Document;
 import com.metalight.xword.utils.StrokeTrackManager;
 
 import android.graphics.Canvas;
@@ -18,7 +19,14 @@ public class Document_Paragraph {
 	private  float FONT_SIZE_FACTOR = 4;
 	private List<TextSegment> segments = new ArrayList<TextSegment>();
 	private  List<TextLine> _lines = new ArrayList<TextLine>();
+    private Document_Page _parentPage;
+	public Document_Paragraph(Document_Page page){
+		_parentPage = page;
+	}
 
+	public  Document_Page getParentPage(){
+		return _parentPage;
+	}
 	public void parse(String paraText)
 	{
 		String txtSeg = paraText;
@@ -37,19 +45,16 @@ public class Document_Paragraph {
 		try{
 			JSONObject jPos = lineBlock.getJSONObject("Position");
 			PointF pos = new PointF((float)jPos.getDouble("X") *3.8f, (float)jPos.getDouble("Y") * 3f);
-//			if (pos.y > 115){
-//				return;
-//			}
-
 			JSONObject jRun = lineBlock.getJSONObject("Run");
 			float size = (float)jRun.getDouble("FontSize");
 			int color = jRun.getInt("Color");
+			int runId = jRun.getInt("RunId");
 			String text = lineBlock.getString("Text");
 			TextLine line = new TextLine(text);
+			line.setParentParaghaph(this);
+			line.setRunId(runId);
 			Paint style = new Paint();
-
 			style.setColor(Color.argb(0xFF, Color.red(color), Color.green(color), Color.blue(color)));
-			//Color.parseColor(jRun.getString("Color"));
 			style.setTextSize(size * FONT_SIZE_FACTOR);
 			line.setPostion(pos, style);
 			this._lines.add(line);
@@ -85,13 +90,21 @@ public class Document_Paragraph {
 
 	public TextLine[] GetTextLinesInBound(Rect bound) {
 
-		for(TextSegment seg : this.segments){
-			TextLine[] lines = seg.getTextLinesInBound(bound);
-			if (null != lines && lines.length > 0){
-				return lines;
+		List<TextLine> lines = new ArrayList<TextLine>();
+		for(TextLine l : _lines){
+			if (l.inBound(bound)){
+				lines.add(l);
 			}
 		}
-		return null;
+
+		return (TextLine[]) lines.toArray(new TextLine[0]);
+//		for(TextSegment seg : this.segments){
+//			TextLine[] lines = seg.getTextLinesInBound(bound);
+//			if (null != lines && lines.length > 0){
+//				return lines;
+//			}
+//		}
+//		return null;
 	}
 
 	public boolean parseSegments(String content) {
