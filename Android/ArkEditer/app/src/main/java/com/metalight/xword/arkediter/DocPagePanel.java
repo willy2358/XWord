@@ -85,6 +85,10 @@ public class DocPagePanel extends View {
         this.invalidate();
     }
 
+    public void updatePageContent(){
+        fetchPageContent(_currentPageIdx, _currentPageIdx + 0);
+    }
+
     protected void updateDocument(JSONArray jsonPages)
     {
         this.document.updatePages(jsonPages);

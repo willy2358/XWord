@@ -76,7 +76,6 @@ public class DocViewer extends Activity {
 		_layout.removeView(_pageEditPanel);
 		_layout.addView(_editResultPanel);
 		_editResultPanel.invalidate();
-
 	}
 
 	@Override
