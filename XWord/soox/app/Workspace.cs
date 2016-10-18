@@ -107,6 +107,11 @@ namespace XWord.soox.app
 
         public List<XPage2> GetPreviewPages(int startPageIdx, int endPageIdx)
         {
+            if (null == this._previewDocument)
+            {
+                PreprocessForPreviewChanges();
+            }
+
             if (null != this._previewDocument)
             {
                 return this._previewDocument.GetPages(startPageIdx, endPageIdx);
@@ -189,8 +194,11 @@ namespace XWord.soox.app
                 }
             }
 
-            this._editDocument = new XDocument(editDocFile);
-            this._editDocument.parsePagesFromXPS(xpsForEdit);
+            if (null == this._editDocument)
+            {
+                this._editDocument = new XDocument(editDocFile);
+                this._editDocument.parsePagesFromXPS(xpsForEdit);
+            }
             return true;
 
             //if (File.Exists(editDocFile))

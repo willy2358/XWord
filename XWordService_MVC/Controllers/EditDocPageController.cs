@@ -59,7 +59,7 @@ namespace XWordService_MVC.Controllers
             //}
 
             bool ret = false;
-            Workspace workspace = DocumentManager.GetEdittingDocumentWorkspace(docId);
+            Workspace workspace = DocumentManager.GetDocumentWorkspace(docId);
             if (null != workspace)
             {
                 ret = workspace.UpdatePageText(pageIdx, runId, (XDocument.Edit_Type)editType, oldPartText, newPartText, editTrack);

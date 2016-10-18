@@ -14,7 +14,7 @@ namespace XWordService_MVC.Models
         private static Dictionary<int, Workspace> EditDocWorkspaces = new Dictionary<int, Workspace>();
         private static Dictionary<int, Workspace> PreviewChangesWorkspaces = new Dictionary<int, Workspace>();
 
-        public static Workspace GetEdittingDocumentWorkspace(int docId)
+        public static Workspace GetDocumentWorkspace(int docId)
         {
             if (EditDocWorkspaces.Keys.Contains(docId))
             {
@@ -37,28 +37,28 @@ namespace XWordService_MVC.Models
             }
         }
 
-        public static Workspace GetPreviewDocChangesWorkspace(int docId)
-        {
-            if (PreviewChangesWorkspaces.Keys.Contains(docId))
-            {
-                return PreviewChangesWorkspaces[docId];
-            }
-            else
-            {
-                string docFile;
-                if (GetDocFileForDocId(docId, out docFile))
-                {
-                    Workspace ws = new Workspace(docFile);
-                    ws.PreprocessForPreviewChanges();
-                    PreviewChangesWorkspaces.Add(docId, ws);
-                    return ws;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        //public static Workspace GetPreviewDocChangesWorkspace(int docId)
+        //{
+        //    if (PreviewChangesWorkspaces.Keys.Contains(docId))
+        //    {
+        //        return PreviewChangesWorkspaces[docId];
+        //    }
+        //    else
+        //    {
+        //        string docFile;
+        //        if (GetDocFileForDocId(docId, out docFile))
+        //        {
+        //            Workspace ws = new Workspace(docFile);
+        //            ws.PreprocessForPreviewChanges();
+        //            PreviewChangesWorkspaces.Add(docId, ws);
+        //            return ws;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
         public static XDocument GetDocument(int docId)
         {
             if (OpenedDocuments.Keys.Contains(docId))
