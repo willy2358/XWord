@@ -79,7 +79,6 @@ public class DocPagePanel_Editable extends DocPagePanel {
 					if (null != symbol){
 						executeEditSymbol(symbol);
 					}
-					Log.d("TEST", "run: ");
 					SystemClock.sleep(100);
 				}
 			}

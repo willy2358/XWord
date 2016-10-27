@@ -16,6 +16,7 @@ import android.util.Log;
 
 public class ShapeStroke {
 	private List<VectorPoint> points_track = new ArrayList<VectorPoint>();
+	private List<VectorPoint> turn_points = null;
 	
 	public enum Shape_Type{ UNDEFINED, SINGLE_POINT, CLOSE_RING, VERT_LINE, HORZ_LINE}
 	
@@ -26,7 +27,10 @@ public class ShapeStroke {
 	public void addTrackPoint(PointF pt)
 	{
 		VectorPoint vPt = new VectorPoint(pt.x, pt.y);
-		
+		if( points_track.size() > 0)
+		{
+			vPt.setMoveDirection(points_track.get(points_track.size() - 1));
+		}
 		this.points_track.add(vPt);
 	}
 	
@@ -127,7 +131,13 @@ public class ShapeStroke {
 		
 		return false;
 	}
-	
+
+	public  List<VectorPoint> getTurnPoints(){
+		if (null == this.turn_points){
+			parseTurnPoints();
+		}
+		return turn_points;
+	}
 	public boolean isValidEditSymbolPart()
 	{
 		return true;
@@ -180,6 +190,101 @@ public class ShapeStroke {
 		return null;
 	}
 
+	public void parseTurnPoints()
+	{
+		if (points_track.size() < 1)
+		{
+			return;
+		}
+		points_track.get(0).setTurnPoint(true);
+		points_track.get(points_track.size() - 1).setTurnPoint(true);
+
+		for(int i = 2; i < points_track.size() - 1; i++)
+		{
+			if (points_track.get(i).horz_dir != points_track.get(i - 1).horz_dir
+					&& points_track.get(i).horz_dir != points_track.get(i -2).horz_dir
+					&& points_track.get(i).horz_dir == points_track.get(i + 1).horz_dir)
+			{
+				points_track.get(i).setTurnPoint(true);
+				continue;
+			}
+
+			if (points_track.get(i).vert_dir != points_track.get(i - 1).vert_dir
+					&& points_track.get(i).vert_dir != points_track.get(i - 2).vert_dir
+					&& points_track.get(i).vert_dir == points_track.get(i + 1).vert_dir)
+			{
+				points_track.get(i).setTurnPoint(true);
+			}
+		}
+
+		filterJitterTurnPoints();
+        turn_points = new ArrayList<VectorPoint>();
+		for(int i = 0; i < points_track.size(); i++)
+		{
+			VectorPoint pt = points_track.get(i);
+			String log = String.format("%d : %f, %f; %s:%f, %s:%f, turn:%d", i, pt.x, pt.y, pt.horz_dir.toString(),pt.horz_delt,
+					pt.vert_dir.toString(), pt.vert_delt, pt.isTurnPoint()? 1 : 0);
+			Log.d("Move Track", log);
+			if (pt.isTurnPoint()){
+				turn_points.add(pt);
+			}
+		}
+	}
+	private void filterJitterTurnPoints() {
+		for(int i = 1; i < points_track.size() - 1; i++)
+		{
+			VectorPoint pt0 = points_track.get(i);
+			if (!pt0.isTurnPoint())
+			{
+				continue;
+			}
+
+			VectorPoint pt1 = getPrevTurnPoint(i);
+			VectorPoint pt2 = getNextTurnPoint(i);
+			if(null == pt1 || null == pt2)
+			{
+				continue;
+			}
+
+			double a_square = Math.pow(pt1.x - pt2.x, 2.0) + Math.pow(pt1.y - pt2.y, 2.0);
+			double b = Math.sqrt(Math.pow(pt1.x - pt0.x, 2.0) + Math.pow(pt1.y - pt0.y, 2.0));
+			double c = Math.sqrt(Math.pow(pt2.x - pt0.x, 2.0) + Math.pow(pt2.y - pt0.y, 2.0));
+			double cos_a = (Math.pow(b, 2.0) + Math.pow(c, 2.0) - a_square)/(2 * b * c);
+
+			if (cos_a <= Math.cos(Math.toRadians(145)) && cos_a >= -1.0)
+			{
+				points_track.get(i).setTurnPoint(false);
+			}
+
+		}
+	}
+	public VectorPoint getPrevTurnPoint(int index)
+	{
+		for (int i = index - 1; i >= 0; i--)
+		{
+			VectorPoint pt = points_track.get(i);
+			if (pt.isTurnPoint())
+			{
+				return pt;
+			}
+		}
+
+		return null;
+	}
+
+	public VectorPoint getNextTurnPoint(int index)
+	{
+		for(int i = index + 1; i < points_track.size(); i++)
+		{
+			VectorPoint pt = points_track.get(i);
+			if (pt.isTurnPoint())
+			{
+				return pt;
+			}
+		}
+
+		return null;
+	}
 
 	public Rect getBounds() {
 		Rect rect = new Rect(99999, 99999, 0, 0);

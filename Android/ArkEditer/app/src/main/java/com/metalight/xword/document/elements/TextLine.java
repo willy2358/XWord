@@ -155,7 +155,7 @@ public class TextLine {
 			Rect rect = new Rect();
 			line_style.getTextBounds(line_text, i, i+1, rect);
 			rect.offset(xOffset, yOffset);
-			if (bound.intersect(rect) || bound.contains(rect)){
+			if (Rect.intersects(bound, rect) || bound.contains(rect)){
 				if (text.length() < 1) {
 					startIdx = i;
 				}
