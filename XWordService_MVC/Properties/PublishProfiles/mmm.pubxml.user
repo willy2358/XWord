@@ -181,10 +181,10 @@
       <publishTime>05/14/2016 23:26:42</publishTime>
     </File>
     <File Include="bin/XWord.dll">
-      <publishTime>09/25/2016 01:11:28</publishTime>
+      <publishTime>10/19/2016 23:08:57</publishTime>
     </File>
     <File Include="bin/XWordService_MVC.dll">
-      <publishTime>09/25/2016 01:16:53</publishTime>
+      <publishTime>10/19/2016 23:08:58</publishTime>
     </File>
     <File Include="bin/zh-Hans/EntityFramework.resources.dll">
       <publishTime>05/14/2016 23:26:45</publishTime>

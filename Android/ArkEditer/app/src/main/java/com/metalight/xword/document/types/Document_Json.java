@@ -46,6 +46,7 @@ public class Document_Json extends Document{
                 JSONObject jsonPage = jsonPages.getJSONObject(i);
                 Document_Page page = new Document_Page();
                 page.parseParagraphs(jsonPage);
+                page.setParentDocument(this);
                 updatePage(page);
             }
             return  true;
@@ -59,12 +60,12 @@ public class Document_Json extends Document{
     {
         List<Document_Page> pages = new ArrayList<Document_Page>();
 
-        if ( _pages.size() < 1 || page.getPageOrder() < this._pages.get(0).getPageOrder())
+        if ( _pages.size() < 1 || page.getPageNumber() < this._pages.get(0).getPageNumber())
         {
             pages.add(page);
             pages.addAll(_pages);
         }
-        else if (page.getPageOrder() > this._pages.get(this._pages.size() - 1).getPageOrder())
+        else if (page.getPageNumber() > this._pages.get(this._pages.size() - 1).getPageNumber())
         {
             pages.addAll(_pages);
             pages.add(page);
@@ -81,7 +82,7 @@ public class Document_Json extends Document{
         for(; i < _pages.size() - 1; i++)
         {
             Document_Page tmpPage =  _pages.get(i);
-            if (tmpPage.getPageOrder() < page.getPageOrder())
+            if (tmpPage.getPageNumber() < page.getPageNumber())
             {
                 pages.add(_pages.get(i));
             }
@@ -92,7 +93,7 @@ public class Document_Json extends Document{
         }
 
         pages.add(page);
-        if (_pages.get(i).getPageOrder() == page.getPageOrder())
+        if (_pages.get(i).getPageNumber() == page.getPageNumber())
         {
             i++;
         }

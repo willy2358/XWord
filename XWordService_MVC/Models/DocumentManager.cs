@@ -11,54 +11,56 @@ namespace XWordService_MVC.Models
     {
         private static string Docs_base_dir = @"C:\MyWeb\data";
         private static Dictionary<int, XDocument> OpenedDocuments = new Dictionary<int, XDocument>();
-        private static Dictionary<int, Workspace> EditDocWorkspaces = new Dictionary<int, Workspace>();
-        private static Dictionary<int, Workspace> PreviewChangesWorkspaces = new Dictionary<int, Workspace>();
+        private static Dictionary<int, Workspace> _DocWorkspaces = new Dictionary<int, Workspace>();
+        //private static Dictionary<int, Workspace> PreviewChangesWorkspaces = new Dictionary<int, Workspace>();
 
-        public static Workspace GetEdittingDocumentWorkspace(int docId)
+        public static Workspace GetDocumentWorkspace(int docId)
         {
-            if (EditDocWorkspaces.Keys.Contains(docId))
+            Workspace workspace = null;
+            if (_DocWorkspaces.Keys.Contains(docId))
             {
-                return EditDocWorkspaces[docId];
+                workspace = _DocWorkspaces[docId];
             }
             else
             {
                 string docFile;
                 if (GetDocFileForDocId(docId, out docFile))
                 {
-                    Workspace ws = new Workspace(docFile);
-                    ws.PreprocessForEditDocument();
-                    EditDocWorkspaces.Add(docId, ws);
-                    return ws;
-                }
-                else
-                {
-                    return null;
+                    workspace = new Workspace(docFile);
+                    _DocWorkspaces.Add(docId, workspace);
                 }
             }
+
+            if (null != workspace)
+            {
+                workspace.PreprocessForEditDocument();
+            }
+
+            return workspace;
         }
 
-        public static Workspace GetPreviewDocChangesWorkspace(int docId)
-        {
-            if (PreviewChangesWorkspaces.Keys.Contains(docId))
-            {
-                return PreviewChangesWorkspaces[docId];
-            }
-            else
-            {
-                string docFile;
-                if (GetDocFileForDocId(docId, out docFile))
-                {
-                    Workspace ws = new Workspace(docFile);
-                    ws.PreprocessForPreviewChanges();
-                    PreviewChangesWorkspaces.Add(docId, ws);
-                    return ws;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        //public static Workspace GetPreviewDocChangesWorkspace(int docId)
+        //{
+        //    if (PreviewChangesWorkspaces.Keys.Contains(docId))
+        //    {
+        //        return PreviewChangesWorkspaces[docId];
+        //    }
+        //    else
+        //    {
+        //        string docFile;
+        //        if (GetDocFileForDocId(docId, out docFile))
+        //        {
+        //            Workspace ws = new Workspace(docFile);
+        //            ws.PreprocessForPreviewChanges();
+        //            PreviewChangesWorkspaces.Add(docId, ws);
+        //            return ws;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
         public static XDocument GetDocument(int docId)
         {
             if (OpenedDocuments.Keys.Contains(docId))

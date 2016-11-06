@@ -6,25 +6,35 @@ import java.util.List;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.metalight.xword.document.types.Document;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Document_Page {
-	private  int _pageOrder = 0;
+	private  int _pageNumber = 0;
 	private List<Document_Paragraph> paragraphs = new ArrayList<Document_Paragraph>();
-	
+	private Document _parentDocument;
 	public void Draw(Canvas canvas){
 		for(Document_Paragraph para : paragraphs){
 			para.Draw(canvas);
 		}
 	}
 
-	public  int getPageOrder()
+	public void setParentDocument(Document doc){
+		_parentDocument = doc;
+	}
+
+	public  Document getParentDocument(){
+		return _parentDocument;
+	}
+
+	public  int getPageNumber()
 	{
-		return  _pageOrder;
+		return _pageNumber;
 	}
 	public boolean parseParagraphs(String contents){
-		Document_Paragraph para = new Document_Paragraph();
+		Document_Paragraph para = new Document_Paragraph(this);
 		if (para.parseSegments(contents)){
 			this.paragraphs.add(para);
 			return true;
@@ -35,12 +45,12 @@ public class Document_Page {
 
 	public  boolean parseParagraphs(JSONObject jsonPage){
 		try {
-			_pageOrder = jsonPage.getInt("pageOrder");
+			_pageNumber = jsonPage.getInt("pageNumber");
 			JSONArray blocks = jsonPage.getJSONArray("lineBlocks");
 			for(int i = 0; i < blocks.length(); i++)
 			{
 				JSONObject block = blocks.getJSONObject(i);
-				Document_Paragraph para = new Document_Paragraph();
+				Document_Paragraph para = new Document_Paragraph(this);
 				para.parse(block);
 				this.paragraphs.add(para);
 			}

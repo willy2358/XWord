@@ -49,6 +49,7 @@ public class DocViewer extends Activity {
 		_pageEditPanel.setMinimumWidth(300);
 		_pageEditPanel.setDocId(docId);
 		_pageEditPanel.setGetPageDataUrl(String.format("http://%s/api/getDocPages/?",Config.getServerAddress()));
+		_pageEditPanel.setEditCommandUrl(String.format("http://%s/api/editDocPage/?",Config.getServerAddress()));
 
 		_editResultPanel = new DocPagePanel(this);
 		_editResultPanel.setLayoutParams(lap);
@@ -74,8 +75,8 @@ public class DocViewer extends Activity {
 	{
 		_layout.removeView(_pageEditPanel);
 		_layout.addView(_editResultPanel);
-		_editResultPanel.invalidate();
-
+		//_editResultPanel.invalidate();
+		_editResultPanel.updatePageContent();
 	}
 
 	@Override

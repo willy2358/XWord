@@ -26,7 +26,7 @@ namespace XWordService_MVC.Controllers
 
         public HttpResponseMessage Get(int docId, int startPageIdx, int endPageIdx)
         {
-            Workspace workspace = DocumentManager.GetPreviewDocChangesWorkspace(docId);
+            Workspace workspace = DocumentManager.GetDocumentWorkspace(docId);
             if (null != workspace)
             {
                 List<soox.user.XPage2> pages = workspace.GetPreviewPages(startPageIdx, endPageIdx);

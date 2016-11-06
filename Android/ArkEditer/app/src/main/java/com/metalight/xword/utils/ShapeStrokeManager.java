@@ -14,15 +14,19 @@ public class ShapeStrokeManager {
 	
 	private EditSymbolManager symbolMgr = new EditSymbolManager();
 	
-	public void AddShapeStroke(ShapeStroke stroke, DocPagePanel_Editable page) {
-		if (null != symbolMgr.ParseShapeStroke(stroke, page)){
-			strokes.add(stroke);
-		}
-	}
+//	public void AddShapeStroke(ShapeStroke stroke, DocPagePanel_Editable page) {
+//		if (null != symbolMgr.ParseShapeStroke(stroke, page)){
+//			strokes.add(stroke);
+//		}
+//	}
 
+	public void addStroke(ShapeStroke stroke){
+		strokes.add(stroke);
+	}
 	public void draw(Canvas canvas) {
 		for(ShapeStroke stroke : this.strokes){
 			stroke.draw(canvas);
+
 		}
 	}
 

@@ -107,6 +107,11 @@ namespace XWord.soox.app
 
         public List<XPage2> GetPreviewPages(int startPageIdx, int endPageIdx)
         {
+            if (null == this._previewDocument)
+            {
+                PreprocessForPreviewChanges();
+            }
+
             if (null != this._previewDocument)
             {
                 return this._previewDocument.GetPages(startPageIdx, endPageIdx);
@@ -171,6 +176,7 @@ namespace XWord.soox.app
 
         public bool PreprocessForEditDocument()
         {
+            bool newCreate = false;
             string editDocFile = GetEditDocumentName(_originalDocFile);
             if (!File.Exists(editDocFile))
             {
@@ -178,6 +184,7 @@ namespace XWord.soox.app
                 doc.ParseContents();
                 doc.SetupIdForRuns();
                 doc.saveAs(editDocFile);
+                newCreate = true;
             }
 
             string xpsForEdit = GetXpsFilePathForDocx(editDocFile);
@@ -187,37 +194,16 @@ namespace XWord.soox.app
                 {
                     return false;
                 }
+                newCreate = true;
             }
 
-            this._editDocument = new XDocument(editDocFile);
-            this._editDocument.parsePagesFromXPS(xpsForEdit);
+            if (newCreate)
+            {
+                this._editDocument = new XDocument(editDocFile);
+                this._editDocument.parsePagesFromXPS(xpsForEdit);
+            }
             return true;
-
-            //if (File.Exists(editDocFile))
-            //{
-            //    string editXps = ConvertDocxIntoXPS(editDocFile);
-            //    this._editDocument = new XDocument(editDocFile);
-            //    this._editDocument.parsePagesFromXPS(editXps);
-            //}
-            //string previewDocFile = GetPreviewDocumentName(_originalDocFile);
-            //if (File.Exists(previewDocFile))
-            //{
-            //    try
-            //    {
-            //        File.Delete(previewDocFile);
-            //    }
-            //    catch(Exception)
-            //    {
-
-            //    }
-            //}
-            //File.Copy(editDocFile, previewDocFile);
-            //if (File.Exists(previewDocFile))
-            //{
-            //    string previewXps = ConvertDocxIntoXPS(previewDocFile);
-            //    this._previewDocument = new XDocument(previewDocFile);
-            //    this._previewDocument.parsePagesFromXPS(previewXps);
-            //}
+ 
         }
     }
 }

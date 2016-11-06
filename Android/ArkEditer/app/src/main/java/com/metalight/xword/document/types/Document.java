@@ -16,6 +16,7 @@ public abstract class Document {
 	{
 		this.fileName = fileName;
 	}
+	protected int _docId;
 	//protected int _currentPageIdx = 0;
 
 	@SuppressLint("DefaultLocale")
@@ -46,7 +47,13 @@ public abstract class Document {
 		return doc;
 		
 	}
-	
+
+	public void setDocmentId(int docId){
+		_docId = docId;
+	}
+	public int getDocumentId(){
+		return _docId;
+	}
 	public abstract boolean loadContents();
 	
 	public void draw(Canvas canvas){
@@ -67,7 +74,7 @@ public abstract class Document {
 	public boolean hasPageFetched(int pageIdx){
 		for(Document_Page p : _pages)
 		{
-			if (p.getPageOrder() == pageIdx)
+			if (p.getPageNumber() == pageIdx)
 			{
 				return  true;
 			}
