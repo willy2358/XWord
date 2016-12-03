@@ -197,13 +197,12 @@ namespace XWord.soox.app
                 newCreate = true;
             }
 
-            if (newCreate)
+            if (newCreate || null == this._editDocument)
             {
                 this._editDocument = new XDocument(editDocFile);
                 this._editDocument.parsePagesFromXPS(xpsForEdit);
             }
             return true;
- 
         }
     }
 }
