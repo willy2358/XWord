@@ -43,7 +43,6 @@ public class DocPagePanel extends View {
                 page.Draw(canvas);
             }
         }
-        //TestDraw(canvas);
     }
 
     private void TestDraw(Canvas canvas) {

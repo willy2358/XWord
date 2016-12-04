@@ -19,6 +19,17 @@
 		android:onClick="backToEditPanel"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"></Button>
+
+		<!--<EditText android:id="@+id/edit_text"-->
+			<!--android:layout_width="fill_parent"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:text="这是一个EditText"/>-->
 	</LinearLayout>
+	<RelativeLayout android:id="@+id/panelLayout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+	</RelativeLayout>
 </LinearLayout>
+
 

@@ -80,10 +80,9 @@ public class StartPage extends Activity {
 	{
 		try {
 
-			Intent intent = new Intent(this, DocViewer.class);
+			Intent intent = new Intent(this, EditDocPageActivity.class);
 			int docId = 1;
-			intent.putExtra(DocViewer.DOC_ID, docId);
-
+			intent.putExtra(ActivityInteraction.DOC_ID, docId);
 			startActivity(intent);
 		}
 		catch (Exception e){

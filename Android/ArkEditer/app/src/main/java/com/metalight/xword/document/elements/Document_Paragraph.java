@@ -21,7 +21,8 @@ public class Document_Paragraph {
 	private double document_setting_height=16838/20;
 	private double view_setting_width = 2048;
 	private double view_setting_height = 1536;
-	private float x_factor = 2048 / (11906 / 20);
+	//private float x_factor = 2048 / (11906 / 20);
+	private float x_factor = 1.0f;
 	//private float y_factor = 1536/()
 	private List<TextSegment> segments = new ArrayList<TextSegment>();
 	private  List<TextLine> _lines = new ArrayList<TextLine>();

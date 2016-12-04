@@ -6,4 +6,7 @@
     <string name="title_activity_doc_viewer">DocViewer</string>
     <string name="strOpenDoc">打开新文件</string>
     <string name="title_activity_file_list">FileList</string>
+    <string name="title_activity_edit_doc_page">EditDocPageActivity</string>
+    <string name="preview_doc">Preview</string>
+    <string name="back_to_edit">Back to Edit</string>
 </resources>

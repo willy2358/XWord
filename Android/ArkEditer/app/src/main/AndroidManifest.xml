@@ -17,7 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DocViewer"></activity>
+        <activity android:name=".DocViewer" />
+        <activity android:name=".EditDocPageActivity" />
+        <activity android:name=".PreviewDocPageActivity"></activity>
     </application>
 
 </manifest>
