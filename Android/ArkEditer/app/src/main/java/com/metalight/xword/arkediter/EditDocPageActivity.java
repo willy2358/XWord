@@ -28,7 +28,7 @@ public class EditDocPageActivity extends AppCompatActivity {
             layout.addView(editView);
 
             editView.loadDocument(docId);
-            editView.createTextInputEditText();
+            //editView.createTextInputEditText();
         }
         catch (Exception ex){
             Log.d("sss", "onCreate: " + ex.getMessage());

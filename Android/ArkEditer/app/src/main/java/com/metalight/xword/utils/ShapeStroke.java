@@ -94,7 +94,7 @@ public class ShapeStroke {
 		
 		if (Math.abs(ptS.x - ptE.x) < char_width/2
 			&& Math.abs(ptS.y - ptE.y) >= char_width/2
-			&& Math.abs(ptS.y -ptE.y) < char_width + 5)
+			/*&& Math.abs(ptS.y -ptE.y) < char_width + 5*/)
 		{
 			return true;
 		}

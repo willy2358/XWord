@@ -50,6 +50,11 @@ public class EditSymbolManager {
 		if (symbol.IsMyType()){
 			return symbol;
 		}
+
+		symbol = new EditSymbol_InsertText(stroke, page);
+		if (symbol.IsMyType()){
+			return symbol;
+		}
 		return null;
 	}
 	

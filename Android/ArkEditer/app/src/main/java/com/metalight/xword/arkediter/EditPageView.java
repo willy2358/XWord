@@ -3,10 +3,12 @@ package com.metalight.xword.arkediter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -70,13 +72,24 @@ public class EditPageView extends RelativeLayout {
         View v = mInflater.inflate(R.layout.edit_page_view, this, true);
         RelativeLayout layout = (RelativeLayout)findViewById(R.id.edit_page_layout);
         EditText edit = new EditText(this.getContext());
+        edit.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    v.setVisibility(View.INVISIBLE);
+                    return true;
+                }
+                return false;
+            }
+        });
         edit.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         edit.setImeOptions(EditorInfo.IME_ACTION_DONE);
         edit.setWidth(200);
         edit.setHeight(20);
         LayoutParams layoutParams2 = new LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
         layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
         layoutParams2.leftMargin =0;

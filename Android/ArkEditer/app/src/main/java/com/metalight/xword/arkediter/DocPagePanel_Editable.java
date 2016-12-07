@@ -5,6 +5,7 @@ import com.metalight.xword.document.elements.TextLine;
 import com.metalight.xword.document.types.Document;
 import com.metalight.xword.edit_symbols.EditSymbol;
 import com.metalight.xword.edit_symbols.EditSymbolManager;
+import com.metalight.xword.edit_symbols.EditSymbol_InsertText;
 import com.metalight.xword.edit_symbols.SymbolCommand;
 import com.metalight.xword.utils.HttpTask;
 import com.metalight.xword.utils.ShapeStrokeManager;
@@ -50,6 +51,9 @@ public class DocPagePanel_Editable extends DocPagePanel {
 					curStroke.addTrackPoint(pt);
 					EditSymbol editSymbol = symbolMgr.ParseShapeStroke(curStroke, page);
 					if (null != editSymbol) {
+						if (editSymbol instanceof EditSymbol_InsertText){
+							//show EditText
+						}
 						strokeMgr.addStroke(curStroke);
 						_unExedSymbols.offer(editSymbol);
 					}
