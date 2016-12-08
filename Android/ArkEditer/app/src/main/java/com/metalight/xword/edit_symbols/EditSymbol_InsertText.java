@@ -9,6 +9,7 @@ import com.metalight.xword.utils.ShapeStroke;
 import com.metalight.xword.utils.StringUtil;
 import com.metalight.xword.utils.VectorPoint;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public class EditSymbol_InsertText extends EditSymbol {
 
+    private String _insertText;
     public EditSymbol_InsertText(ShapeStroke stroke, DocPagePanel_Editable page) {
         super(stroke, page);
     }
@@ -28,6 +30,7 @@ public class EditSymbol_InsertText extends EditSymbol {
         }
 
         if (this.stroke.getShapeType() == ShapeStroke.Shape_Type.VERT_LINE){
+            _effectedLines.addAll(Arrays.asList(lines));
             return true;
         }
 
@@ -38,18 +41,26 @@ public class EditSymbol_InsertText extends EditSymbol {
             VectorPoint pt3 = turns.get(2);
             if (pt2.y < pt1.y && pt2.y < pt3.y
                     && pt1.x < pt2.x && pt2.x < pt3.x){
+                _effectedLines.addAll(Arrays.asList(lines));
                 return  true;
             }
         }
-
         return false;
     }
-
     @Override
     public boolean IsMyPart() {
         return false;
     }
 
+    @Override
+    public boolean isExecutable() {
+        return _insertText != null &&  !_insertText.isEmpty();
+    }
+
+    public void setInsertText(String text){
+        this._insertText = text;
+        parseSymbolCommmand();
+    }
     @Override
     public void parseSymbolCommmand() {
         if (this.stroke.getShapeType() != ShapeStroke.Shape_Type.VERT_LINE){
@@ -60,6 +71,17 @@ public class EditSymbol_InsertText extends EditSymbol {
         }
     }
 
+    public  VectorPoint getInsertPosition(){
+        if (this.stroke.getShapeType() != ShapeStroke.Shape_Type.VERT_LINE){
+            return this.stroke.getPointByIndex(stroke.getPointCount()/2);
+        }
+        else{
+            return  stroke.getTurnPoints().get(1);
+        }
+
+    }
+
+
     private  void parseVerticalLineInsertSymbol(){
         VectorPoint pt = this.stroke.getPointByIndex(this.stroke.getPointCount()/2);
         Rect bound = this.stroke.getBounds();
@@ -67,8 +89,9 @@ public class EditSymbol_InsertText extends EditSymbol {
         int idx = line.getCharIndexByXPos(pt.x);
         String text = line.getText().substring(idx, idx + 5);
         String uniqueSubStr = StringUtil.getUniqueSubString(line.getText(), text, idx);
-
-
+        String newStr = _insertText + uniqueSubStr;
+        SymbolCommand symRet = new SymbolCommand(this, line, uniqueSubStr, newStr);
+        addEditResult(symRet);
     }
 
     private void parseDownArrowInsertSymbol() {

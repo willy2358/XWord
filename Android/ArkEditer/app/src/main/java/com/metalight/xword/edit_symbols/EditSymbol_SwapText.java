@@ -44,6 +44,11 @@ public class EditSymbol_SwapText extends EditSymbol {
 	}
 
 	@Override
+	public boolean isExecutable() {
+		return true;
+	}
+
+	@Override
 	public void parseSymbolCommmand(){
 		Rect bound = this.stroke.getBounds();
 		TextLine line = _effectedLines.get(0);

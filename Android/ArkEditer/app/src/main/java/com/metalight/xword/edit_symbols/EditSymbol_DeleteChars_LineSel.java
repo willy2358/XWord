@@ -52,4 +52,9 @@ public class EditSymbol_DeleteChars_LineSel extends EditSymbol {
 		return false;
 	}
 
+	@Override
+	public boolean isExecutable() {
+		return true;
+	}
+
 }

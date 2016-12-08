@@ -14,6 +14,7 @@ public abstract class EditSymbol {
 	protected List<TextLine> _effectedLines = new ArrayList<TextLine>();
 	public abstract boolean IsMyType();
 	public abstract boolean IsMyPart();
+	public abstract boolean isExecutable();
 	protected List<SymbolCommand> _symbolResults = new ArrayList<SymbolCommand>();
 	
 	public EditSymbol(ShapeStroke stroke, DocPagePanel_Editable page) {

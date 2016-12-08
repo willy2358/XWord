@@ -62,6 +62,8 @@ public class EditPageView extends RelativeLayout {
         int startIdx = Config.getDocLastEditPageIndex(docId);
         _pageEditPanel.displayPageContent(startIdx);
         layout.addView(_pageEditPanel);
+
+        createTextInputEditText();
     }
 
     public void init() {
@@ -78,6 +80,7 @@ public class EditPageView extends RelativeLayout {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    _pageEditPanel.setInsertedText(((EditText)v).getText().toString());
                     v.setVisibility(View.INVISIBLE);
                     return true;
                 }
@@ -96,6 +99,8 @@ public class EditPageView extends RelativeLayout {
         layoutParams2.topMargin = 0;
         edit.setLayoutParams(layoutParams2);
         edit.setText("Result 333333333333");
+        edit.setVisibility(View.INVISIBLE);
+        this._pageEditPanel.setEdtiText(edit);
         layout .addView(edit);
     }
 }

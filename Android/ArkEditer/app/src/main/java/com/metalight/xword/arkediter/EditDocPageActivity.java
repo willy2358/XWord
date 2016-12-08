@@ -26,9 +26,7 @@ public class EditDocPageActivity extends AppCompatActivity {
             LinearLayout.LayoutParams lap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             editView.setLayoutParams(lap);
             layout.addView(editView);
-
             editView.loadDocument(docId);
-            //editView.createTextInputEditText();
         }
         catch (Exception ex){
             Log.d("sss", "onCreate: " + ex.getMessage());

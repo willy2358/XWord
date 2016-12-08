@@ -22,4 +22,9 @@ public class EditSymbol_DeleteParagraph extends EditSymbol {
 		return false;
 	}
 
+	@Override
+	public boolean isExecutable() {
+		return false;
+	}
+
 }

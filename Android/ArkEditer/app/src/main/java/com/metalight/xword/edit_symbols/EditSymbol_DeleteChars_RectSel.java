@@ -22,4 +22,9 @@ public class EditSymbol_DeleteChars_RectSel extends EditSymbol {
 		return false;
 	}
 
+	@Override
+	public boolean isExecutable() {
+		return true;
+	}
+
 }

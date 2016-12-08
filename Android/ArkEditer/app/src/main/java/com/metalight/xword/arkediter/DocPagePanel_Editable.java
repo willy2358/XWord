@@ -18,6 +18,8 @@ import android.graphics.Rect;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.*;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +34,8 @@ public class DocPagePanel_Editable extends DocPagePanel {
 	private boolean _appExit = false;
     private LinkedList<EditSymbol> _unExedSymbols = new LinkedList<EditSymbol>();
 	private String _editCommandUrl;
+	private EditText _editText;
+	private EditSymbol _currentEditSymbol;
 	public DocPagePanel_Editable(Context context) {
 		super(context);
 		final DocPagePanel_Editable page = this;
@@ -51,11 +55,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 					curStroke.addTrackPoint(pt);
 					EditSymbol editSymbol = symbolMgr.ParseShapeStroke(curStroke, page);
 					if (null != editSymbol) {
-						if (editSymbol instanceof EditSymbol_InsertText){
-							//show EditText
-						}
-						strokeMgr.addStroke(curStroke);
-						_unExedSymbols.offer(editSymbol);
+						setCurrentEditSymbol(editSymbol);
 					}
 					curStroke = null;
 				}
@@ -70,6 +70,31 @@ public class DocPagePanel_Editable extends DocPagePanel {
 		CreateThreadToUploadEditCommand();
 	}
 
+	public void setInsertedText(String text){
+		if(_currentEditSymbol instanceof EditSymbol_InsertText){
+			((EditSymbol_InsertText)_currentEditSymbol).setInsertText(text);
+		}
+	}
+	private void showTextInputControl(PointF pt){
+		_editText.setVisibility(View.VISIBLE);
+		RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams)_editText.getLayoutParams();
+		layoutParams2.leftMargin = (int)pt.x;
+		layoutParams2.topMargin = (int)pt.y;
+		_editText.setLayoutParams(layoutParams2);
+	}
+
+	private void setCurrentEditSymbol(EditSymbol symbol){
+		this._currentEditSymbol = symbol;
+		if (symbol instanceof EditSymbol_InsertText){
+			showTextInputControl( ((EditSymbol_InsertText)symbol).getInsertPosition());
+		}
+		strokeMgr.addStroke(curStroke);
+		_unExedSymbols.offer(symbol);
+
+	}
+	public  void setEdtiText(EditText edit){
+		_editText = edit;
+	}
 	public  void setEditCommandUrl(String url){
 		this._editCommandUrl = url;
 	}
@@ -79,8 +104,12 @@ public class DocPagePanel_Editable extends DocPagePanel {
 			@Override
 			public void run(){
 				while(!_appExit){
-					EditSymbol symbol = _unExedSymbols.poll();
-					if (null != symbol){
+					EditSymbol symbol = _unExedSymbols.peek();
+					if (null == symbol){
+						continue;
+					}
+					if (symbol.isExecutable()){
+						symbol = _unExedSymbols.poll();
 						executeEditSymbol(symbol);
 					}
 					SystemClock.sleep(100);
