@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 public class EditSymbol_DeleteChars_LineSel extends EditSymbol {
 
+	private String _replaceText;
 	public EditSymbol_DeleteChars_LineSel(ShapeStroke stroke, DocPagePanel_Editable page) {
 		super(stroke, page);
 	}
@@ -55,6 +56,18 @@ public class EditSymbol_DeleteChars_LineSel extends EditSymbol {
 	@Override
 	public boolean isExecutable() {
 		return true;
+	}
+
+	@Override
+	public Rect getRect() {
+		Rect rect = this.stroke.getBounds();
+		rect.top = (int)this._effectedLines.get(0).getTopY();
+		rect.bottom = (int)this._effectedLines.get(0).getBottomY();
+		return rect;
+	}
+
+	public void setReplaceText(String replaceText){
+		_replaceText = replaceText;
 	}
 
 }

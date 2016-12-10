@@ -1,5 +1,7 @@
 package com.metalight.xword.edit_symbols;
 
+import android.graphics.Rect;
+
 import com.metalight.xword.utils.ShapeStroke;
 import com.metalight.xword.arkediter.DocPagePanel_Editable;
 
@@ -25,6 +27,11 @@ public class EditSymbol_DeleteParagraph extends EditSymbol {
 	@Override
 	public boolean isExecutable() {
 		return false;
+	}
+
+	@Override
+	public Rect getRect() {
+		return this.stroke.getBounds();
 	}
 
 }

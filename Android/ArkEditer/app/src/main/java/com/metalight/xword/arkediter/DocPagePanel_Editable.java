@@ -5,11 +5,13 @@ import com.metalight.xword.document.elements.TextLine;
 import com.metalight.xword.document.types.Document;
 import com.metalight.xword.edit_symbols.EditSymbol;
 import com.metalight.xword.edit_symbols.EditSymbolManager;
+import com.metalight.xword.edit_symbols.EditSymbol_DeleteChars_LineSel;
 import com.metalight.xword.edit_symbols.EditSymbol_InsertText;
 import com.metalight.xword.edit_symbols.SymbolCommand;
 import com.metalight.xword.utils.HttpTask;
 import com.metalight.xword.utils.ShapeStrokeManager;
 import com.metalight.xword.utils.ShapeStroke;
+import com.metalight.xword.utils.StrokeTrack;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -24,7 +26,11 @@ import android.widget.RelativeLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class DocPagePanel_Editable extends DocPagePanel {
 	
@@ -36,6 +42,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 	private String _editCommandUrl;
 	private EditText _editText;
 	private EditSymbol _currentEditSymbol;
+	private Map<Integer, List<EditSymbol>> _pageEditSymbols = new HashMap<Integer, List<EditSymbol>>();
 	public DocPagePanel_Editable(Context context) {
 		super(context);
 		final DocPagePanel_Editable page = this;
@@ -53,9 +60,12 @@ public class DocPagePanel_Editable extends DocPagePanel {
 				else if (event.getAction() == MotionEvent.ACTION_UP)
 				{
 					curStroke.addTrackPoint(pt);
-					EditSymbol editSymbol = symbolMgr.ParseShapeStroke(curStroke, page);
-					if (null != editSymbol) {
-						setCurrentEditSymbol(editSymbol);
+					if (!isStrokeModifyExistedSymbols(curStroke)){
+						EditSymbol editSymbol = symbolMgr.ParseShapeStroke(curStroke, page);
+						if (null != editSymbol) {
+							recordPageEditSymbol(editSymbol);
+							setCurrentEditSymbol(editSymbol);
+						}
 					}
 					curStroke = null;
 				}
@@ -71,9 +81,50 @@ public class DocPagePanel_Editable extends DocPagePanel {
 	}
 
 	public void setInsertedText(String text){
+		if (null == text || text.isEmpty()){
+			return;
+		}
 		if(_currentEditSymbol instanceof EditSymbol_InsertText){
 			((EditSymbol_InsertText)_currentEditSymbol).setInsertText(text);
 		}
+		else if (_currentEditSymbol instanceof EditSymbol_DeleteChars_LineSel){
+			((EditSymbol_DeleteChars_LineSel)_currentEditSymbol).setReplaceText(text);
+		}
+	}
+
+	private void recordPageEditSymbol(EditSymbol symbol){
+		if (!_pageEditSymbols.containsKey(_currentPageIdx)){
+			_pageEditSymbols.put(_currentPageIdx, new ArrayList<EditSymbol>());
+		}
+		_pageEditSymbols.get(_currentPageIdx).add(symbol);
+	}
+
+	private boolean isStrokeModifyExistedSymbols(ShapeStroke stroke){
+		ShapeStroke.Shape_Type shpType = stroke.getShapeType();
+		if (shpType != ShapeStroke.Shape_Type.VERT_LINE && shpType != ShapeStroke.Shape_Type.HORZ_LINE){
+			return false;
+		}
+
+		List<EditSymbol> symbols = _pageEditSymbols.get(_currentPageIdx);
+		if (null == symbols){
+			return false;
+		}
+
+		for(EditSymbol sym : symbols){
+			Rect symRect = sym.getRect();
+			if(symRect.intersect(stroke.getBounds()) || symRect.contains(stroke.getBounds())){
+				if (shpType == ShapeStroke.Shape_Type.HORZ_LINE){
+					sym.setRemovedFlag(true);
+				}
+				else if (sym instanceof EditSymbol_DeleteChars_LineSel){
+					_currentEditSymbol = sym;
+					showTextInputControl(stroke.getPointByIndex(0));
+
+				}
+				return  true;
+			}
+		}
+		return false;
 	}
 	private void showTextInputControl(PointF pt){
 		_editText.setVisibility(View.VISIBLE);

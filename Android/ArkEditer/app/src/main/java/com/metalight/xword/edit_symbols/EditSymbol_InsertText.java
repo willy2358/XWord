@@ -57,6 +57,11 @@ public class EditSymbol_InsertText extends EditSymbol {
         return _insertText != null &&  !_insertText.isEmpty();
     }
 
+    @Override
+    public Rect getRect() {
+        return this.stroke.getBounds();
+    }
+
     public void setInsertText(String text){
         this._insertText = text;
         parseSymbolCommmand();
