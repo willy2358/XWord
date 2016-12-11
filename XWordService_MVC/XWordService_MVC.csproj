@@ -164,6 +164,7 @@
     <Compile Include="Controllers\DocListController.cs" />
     <Compile Include="Controllers\DocSettingController.cs" />
     <Compile Include="Controllers\PreviewDocChangesController.cs" />
+    <Compile Include="Controllers\UploadDocController.cs" />
     <Compile Include="Models\DocumentManager.cs" />
     <Compile Include="Controllers\EditDocPageController.cs" />
     <Compile Include="Controllers\GetDocPagesController.cs" />
@@ -287,6 +288,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\DocList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

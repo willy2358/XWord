@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UploadDoc</title>
+    <script type="text/javascript">
+        function alertFilename() {
+            var thefile = document.getElementById('theFile');
+            //alert(thefile.value);
+            var fileName = document.getElementById('fileName');
+            fileName.value = thefile.value;
+        }
+    </script>
+</head>
+<body>
+    <section class="main-content clear-fix">
+
+        <form name="form1" method="post" enctype="multipart/form-data" action="~/api/UploadDoc">
+            <fieldset>
+                <legend>File Upload Example</legend>
+                <div>
+                    <label for="caption">Image Caption</label>
+                    <input name="caption" type="text" />
+                </div>
+                <div>
+                    <label for="image1">Image File</label>
+                    <input name="image1" id="theFile" type="file" onchange="alertFilename()" />
+                    <input name="fileName" id="fileName" type="hidden" value="aaa" />
+                </div>
+                <div>
+                    <input type="submit" value="Submit" />
+                </div>
+            </fieldset>
+        </form>
+
+
+    </section>
+</body>
+</html>

@@ -9,7 +9,7 @@ namespace XWordService_MVC.Models
 {
     public static class DocumentManager
     {
-        private static string Docs_base_dir = @"C:\MyWeb\data";
+        public static string Docs_base_dir = @"C:\MyWeb\data";
         private static Dictionary<int, XDocument> OpenedDocuments = new Dictionary<int, XDocument>();
         private static Dictionary<int, Workspace> _DocWorkspaces = new Dictionary<int, Workspace>();
         //private static Dictionary<int, Workspace> PreviewChangesWorkspaces = new Dictionary<int, Workspace>();
