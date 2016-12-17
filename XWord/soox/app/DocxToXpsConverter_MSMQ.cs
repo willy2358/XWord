@@ -76,7 +76,7 @@ namespace XWord.soox.app
                     mq = new MessageQueue(MESSAGE_QUEUE_NAME);
                 }
                 msg.Label = "DocxConvert";
-                msg.Body = docx + "-" + xps;
+                msg.Body = docx + "->" + xps;
                 mq.Send(msg);
             }
             catch (System.Messaging.MessageQueueException ex)

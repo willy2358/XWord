@@ -23,8 +23,9 @@ namespace XWordService_MVC.Tests.Controllers
 
         public async void PreviewDocChanges()
         {
+            string docId = "BodyPart_7d72e65e-9b83-4b15-a1be-210113f348df";
             PreviewDocChangesController controller = new PreviewDocChangesController();
-            HttpResponseMessage response = controller.Get(1, 0, 1);
+            HttpResponseMessage response = controller.Get(docId, 0, 1);
 
             string data = await response.Content.ReadAsStringAsync();
             ////JavaScriptArray array = (JavaScriptArray)JavaScriptConvert.DeserializeObject(context.Request.Form[0]);

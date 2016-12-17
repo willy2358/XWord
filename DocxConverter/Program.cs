@@ -86,7 +86,7 @@ namespace DocxConverter
                 msg.Formatter = new XmlMessageFormatter(new String[] { "System.String,mscorlib" });
                 
                 Console.WriteLine("**************Received message:" + msg.Label.ToString() + " -- " + msg.Body.ToString());
-                string[] parts = msg.Body.ToString().Split('-');
+                string[] parts = msg.Body.ToString().Split(new string[]{"->"}, StringSplitOptions.None);
                 return new Tuple<string, string>(parts[0], parts[1]);
             }
             catch (System.Messaging.MessageQueueException ex)

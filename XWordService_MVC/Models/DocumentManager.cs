@@ -13,14 +13,15 @@ namespace XWordService_MVC.Models
     {
         public static string DOCS_BASE_DIR = @"C:\MyWeb\data";
         public const string ORIGIN_DOC_PATH = "OriginDocs";
+        public const string EDIT_WORKSPACE_PATH = "Workspace";
         public const String DOC_LIST_FILE = "DocList.txt";
 
-        private static Dictionary<int, XDocument> OpenedDocuments = new Dictionary<int, XDocument>();
-        private static Dictionary<int, Workspace> _DocWorkspaces = new Dictionary<int, Workspace>();
+        private static Dictionary<String, XDocument> OpenedDocuments = new Dictionary<String, XDocument>();
+        private static Dictionary<String, Workspace> _DocWorkspaces = new Dictionary<String, Workspace>();
         private static Dictionary<String, String> _UploadedDocs = new Dictionary<string, string>();
         //private static Dictionary<int, Workspace> PreviewChangesWorkspaces = new Dictionary<int, Workspace>();
 
-        public static Workspace GetDocumentWorkspace(int docId)
+        public static Workspace GetDocumentWorkspace(String docId)
         {
             Workspace workspace = null;
             if (_DocWorkspaces.Keys.Contains(docId))
@@ -33,6 +34,7 @@ namespace XWordService_MVC.Models
                 if (GetDocFileForDocId(docId, out docFile))
                 {
                     workspace = new Workspace(docFile);
+                    workspace.WorkDirectry = GetEditWorkspacePath();
                     _DocWorkspaces.Add(docId, workspace);
                 }
             }
@@ -109,8 +111,9 @@ namespace XWordService_MVC.Models
 
         public static bool SaveUploadedDocumentRecord(string originFileName, string savedFileName)
         {
+            string fileTitle = System.IO.Path.GetFileNameWithoutExtension(savedFileName);
             List<String> lines = new List<string>();
-            lines.Add(string.Format("{0},{1}", originFileName, savedFileName));
+            lines.Add(string.Format("{0},{1}", originFileName, fileTitle));
             try
             {
                 System.IO.File.AppendAllLines(GetDocListFile(), lines, Encoding.UTF8);
@@ -120,7 +123,7 @@ namespace XWordService_MVC.Models
                 return false;
             }
 
-            AddDocumentRecord(originFileName, savedFileName);
+            AddDocumentRecord(originFileName, fileTitle);
 
             return true;
         }
@@ -136,70 +139,88 @@ namespace XWordService_MVC.Models
                 _UploadedDocs.Add(originFileName, savedFileName);
             }
         }
-        public static XDocument GetDocument(int docId)
+        //public static XDocument GetDocument(String docId)
+        //{
+        //    if (OpenedDocuments.Keys.Contains(docId))
+        //    {
+        //        return OpenedDocuments[docId];
+        //    }
+        //    else
+        //    {
+        //        string docx = "";
+        //        string xpsFile = "";
+        //        if (GetDocFilesDocId(docId, out docx, out xpsFile))
+        //        {
+        //            soox.user.XDocument doc = new soox.user.XDocument(docx);
+        //            doc.parsePagesFromXPS(xpsFile);
+        //            OpenedDocuments.Add(docId, doc);
+
+        //            return doc;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
+
+
+        //private static bool GetDocFilesDocId(String docId, out string docFile, out string xpsFile)
+        //{
+        //    docFile = System.IO.Path.Combine(DOCS_BASE_DIR, ORIGIN_DOC_PATH, docId + ".docx");
+        //    xpsFile = System.IO.Path.Combine(DOCS_BASE_DIR, ORIGIN_DOC_PATH, docId + ".xps");
+
+        //    return true;
+        //}
+
+        private static bool GetDocFileForDocId(String docId, out string docFile)
         {
-            if (OpenedDocuments.Keys.Contains(docId))
-            {
-                return OpenedDocuments[docId];
-            }
-            else
-            {
-                string docx = "";
-                string xpsFile = "";
-                if (GetDocFilesDocId(docId, out docx, out xpsFile))
-                {
-                    soox.user.XDocument doc = new soox.user.XDocument(docx);
-                    doc.parsePagesFromXPS(xpsFile);
-                    OpenedDocuments.Add(docId, doc);
-
-                    return doc;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-
-        private static bool GetDocFilesDocId(int docId, out string docFile, out string xpsFile)
-        {
-            docFile = System.IO.Path.Combine(DOCS_BASE_DIR, "1.docx");
-            xpsFile = System.IO.Path.Combine(DOCS_BASE_DIR, "1.xps");
-
+            docFile = System.IO.Path.Combine(DOCS_BASE_DIR, ORIGIN_DOC_PATH, docId + ".docx");
             return true;
         }
 
-        private static bool GetDocFileForDocId(int docId, out string docFile)
+        private static string GetEditWorkspacePath()
         {
-            docFile = System.IO.Path.Combine(DOCS_BASE_DIR, "1.docx");
-            return true;
+            string path = System.IO.Path.Combine(DOCS_BASE_DIR, EDIT_WORKSPACE_PATH);
+            if (!System.IO.Directory.Exists(path))
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(path);
+                }
+                catch(Exception)
+                {
+                    return "";
+                }
+            }
+
+            return path;
         }
 
-        private static string GetEditDocumentName(string originalDocName)
-        {
-            string path = System.IO.Path.GetDirectoryName(originalDocName);
-            string filename = System.IO.Path.GetFileNameWithoutExtension(originalDocName);
-            string ext = System.IO.Path.GetExtension(originalDocName);
+        //private static string GetEditDocumentName(string originalDocName)
+        //{
+        //    string path = GetEditWorkspacePath();   
+        //    string filename = System.IO.Path.GetFileNameWithoutExtension(originalDocName);
+        //    string ext = System.IO.Path.GetExtension(originalDocName);
 
-            return string.Format("{0}{1}_e.{2}", path, filename, ext);
+        //    return string.Format("{0}{1}_e.{2}", path, filename, ext);
 
-        }
+        //}
 
-        private static string GetPreviewDocumentName(string originalDocName)
-        {
-            string path = System.IO.Path.GetDirectoryName(originalDocName);
-            string filename = System.IO.Path.GetFileNameWithoutExtension(originalDocName);
-            string ext = System.IO.Path.GetExtension(originalDocName);
+        //private static string GetPreviewDocumentName(string originalDocName)
+        //{
+        //    string path = GetEditWorkspacePath();
+        //    string filename = System.IO.Path.GetFileNameWithoutExtension(originalDocName);
+        //    string ext = System.IO.Path.GetExtension(originalDocName);
 
-            return string.Format("{0}{1}_e_prev.{2}", path, filename, ext);
-        }
+        //    return string.Format("{0}{1}_e_prev.{2}", path, filename, ext);
+        //}
 
-        private static void PreprocessOriginalDocument(string originalDocFile)
-        {
-            soox.user.XDocument doc = new soox.user.XDocument(originalDocFile);
+        //private static void PreprocessOriginalDocument(string originalDocFile)
+        //{
+        //    soox.user.XDocument doc = new soox.user.XDocument(originalDocFile);
 
-            doc.saveAs(GetEditDocumentName(originalDocFile));
-        }
+        //    doc.saveAs(GetEditDocumentName(originalDocFile));
+        //}
     }
 }

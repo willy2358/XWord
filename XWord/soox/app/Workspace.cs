@@ -17,15 +17,20 @@ namespace XWord.soox.app
         private XDocument _editDocument;
         private XDocument _previewDocument;
         private string _originalDocFile;
+        public String WorkDirectry { get; set; }
 
         public Workspace(string originalDocFile)
         {
             this._originalDocFile = originalDocFile;
         }
 
-        private static string GetEditDocumentName(string originalDocName)
+        private string GetEditDocumentName(string originalDocName)
         {
-            string path = System.IO.Path.GetDirectoryName(originalDocName);
+            string path = WorkDirectry;
+            if (string.IsNullOrEmpty(path))
+            {
+                path = System.IO.Path.GetDirectoryName(originalDocName);
+            }
 
             string filename = System.IO.Path.GetFileNameWithoutExtension(originalDocName);
             string ext = System.IO.Path.GetExtension(originalDocName);
@@ -34,9 +39,13 @@ namespace XWord.soox.app
 
         }
 
-        private static string GetPreviewDocumentName(string originalDocName)
+        private string GetPreviewDocumentName(string originalDocName)
         {
-            string path = System.IO.Path.GetDirectoryName(originalDocName);
+            string path = WorkDirectry;
+            if (string.IsNullOrEmpty(path))
+            {
+                path = System.IO.Path.GetDirectoryName(originalDocName);
+            }
             string filename = System.IO.Path.GetFileNameWithoutExtension(originalDocName);
             string ext = System.IO.Path.GetExtension(originalDocName);
 

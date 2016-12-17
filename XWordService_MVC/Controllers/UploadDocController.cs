@@ -15,8 +15,6 @@ namespace XWordService_MVC.Controllers
 {
     public class UploadDocController : ApiController
     {
-        public const string ORIGIN_DOC_PATH = "OriginDocs";
-        public const String DOC_LIST_FILE = "DocList.txt";
         //
         // GET: /UploadCoc/
 
@@ -55,7 +53,17 @@ namespace XWordService_MVC.Controllers
 
         private void recordLoadedFile(string fileOriginName, string savedFile)
         {
-            DocumentManager.SaveUploadedDocumentRecord(fileOriginName, savedFile);
+            string savedDocFile = savedFile + ".docx";
+            try
+            {
+                System.IO.File.Move(savedFile, savedDocFile);
+                DocumentManager.SaveUploadedDocumentRecord(fileOriginName, savedFile);
+            }
+            catch(Exception)
+            {
+
+            }
+            
         }
     }
 }

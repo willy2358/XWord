@@ -38,7 +38,7 @@ namespace XWordService_MVC.Controllers
         /// <param name="editType">EditType:1/2/3/4(del/insert/replace)</param>
         /// <returns></returns>
 
-        public HttpResponseMessage Get(int docId, int pageIdx, int runId, 
+        public HttpResponseMessage Get(String docId, int pageIdx, int runId, 
                                        int editType, string oldPartText, string newPartText, string editTrack)
         {
             //XDocument doc = DocumentManager.GetDocument(docId);

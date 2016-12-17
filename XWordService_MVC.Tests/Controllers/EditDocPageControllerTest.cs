@@ -16,8 +16,9 @@ namespace XWordService_MVC.Tests.Controllers
 
         public async void ActualTestProcedure()
         {
+            string docId = "BodyPart_7d72e65e-9b83-4b15-a1be-210113f348df";
             EditDocPageController controller = new EditDocPageController();
-            HttpResponseMessage response = controller.Get(1, 0, 1, 3, "童年", "多大", "1,2");
+            HttpResponseMessage response = controller.Get(docId, 0, 1, 3, "童年", "多大", "1,2");
 
             string data = await response.Content.ReadAsStringAsync();
             ////JavaScriptArray array = (JavaScriptArray)JavaScriptConvert.DeserializeObject(context.Request.Form[0]);

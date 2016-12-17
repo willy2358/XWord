@@ -24,7 +24,7 @@ namespace XWordService_MVC.Controllers
             return "value";
         }
 
-        public HttpResponseMessage Get(int docId, int startPageIdx, int endPageIdx)
+        public HttpResponseMessage Get(String docId, int startPageIdx, int endPageIdx)
         {
             Workspace workspace = DocumentManager.GetDocumentWorkspace(docId);
             if (null != workspace)
