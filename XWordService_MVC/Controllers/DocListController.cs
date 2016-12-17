@@ -20,15 +20,7 @@ namespace XWordService_MVC.Controllers
             return View();
         }
 
-        public HttpResponseMessage Get()
-        {
-            Dictionary<string, string> docs = DocumentManager.GetUploadedDocuments();
-            string data = "{\"ErrorMsg\":\"OK\",\"Docs\":";
-            string json = soox.serialize.JsonSerializer.DictToJson(docs);
-            data += json + "}";
-            HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "application/json") };
-            return result;
-        }
+
 
         //public string Get(int id)
         //{
