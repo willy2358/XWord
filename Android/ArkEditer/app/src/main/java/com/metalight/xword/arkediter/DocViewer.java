@@ -50,7 +50,7 @@ public class DocViewer extends Activity {
 
 
 		Intent intent = getIntent();
-		int docId = intent.getIntExtra(DocViewer.DOC_ID, 1);
+		String docId = intent.getStringExtra(DocViewer.DOC_ID);
 		_pageEditPanel = new DocPagePanel_Editable(this);
 		_pageEditPanel.setId(R.id.edit_doc_panel);
 		_pageEditPanel.setLayoutParams(lap);

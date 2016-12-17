@@ -81,7 +81,7 @@ public class StartPage extends Activity {
 		try {
 
 			Intent intent = new Intent(this, EditDocPageActivity.class);
-			int docId = 1;
+			String docId = "BodyPart_7d72e65e-9b83-4b15-a1be-210113f348df";
 			intent.putExtra(ActivityInteraction.DOC_ID, docId);
 			startActivity(intent);
 		}
@@ -113,7 +113,7 @@ public class StartPage extends Activity {
 			public void taskFailed() {
 			}
 		});
-        int docId = 1;
+        String docId = "ddd";
 		String server = Config.getServerAddress();
 		int startIdx = Config.getDocLastEditPageIndex(docId);
 		int endIdx = startIdx + Config.getBatchFetchPageNumber() - 1;
@@ -137,8 +137,8 @@ public class StartPage extends Activity {
 		//testParseJson();
 	}
 
-	private String getDocPagesQueryUrl(int docId, int startPageIdx, int endPageIdx){
-		String url = String.format("http://%s/api/getDocPages/?docId=%d&startPageIdx=%d&endPageIdx=%d",
+	private String getDocPagesQueryUrl(String docId, int startPageIdx, int endPageIdx){
+		String url = String.format("http://%s/api/getDocPages/?docId=%s&startPageIdx=%d&endPageIdx=%d",
 				                  Config.getServerAddress(), docId, startPageIdx, endPageIdx );
 
 		return  url;

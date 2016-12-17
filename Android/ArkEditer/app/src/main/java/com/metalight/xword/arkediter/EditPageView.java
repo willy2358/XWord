@@ -23,7 +23,7 @@ public class EditPageView extends RelativeLayout {
 
     public final static  String DOC_ID = "DocId";
     private DocPagePanel_Editable _pageEditPanel = null;
-    private int _docId;
+    private String _docId;
     LayoutInflater mInflater;
     public EditPageView(Context context) {
         super(context);
@@ -42,7 +42,7 @@ public class EditPageView extends RelativeLayout {
         init();
     }
 
-    public void loadDocument(int docId){
+    public void loadDocument(String docId){
         View v = mInflater.inflate(R.layout.edit_page_view, this, true);
         RelativeLayout layout = (RelativeLayout)findViewById(R.id.edit_page_layout);
         RelativeLayout.LayoutParams lap = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

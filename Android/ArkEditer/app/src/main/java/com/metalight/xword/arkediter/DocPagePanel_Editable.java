@@ -201,7 +201,7 @@ public class DocPagePanel_Editable extends DocPagePanel {
 		Document_Page page = para.getParentPage();
 		Document doc = page.getParentDocument();
 
-		String url = String.format("%sdocId=%d&pageIdx=%d&runId=%d&editType=%d&oldPartText=%s&newPartText=%s&editTrack=%s",
+		String url = String.format("%sdocId=%s&pageIdx=%d&runId=%d&editType=%d&oldPartText=%s&newPartText=%s&editTrack=%s",
 				     _editCommandUrl, doc.getDocumentId(), page.getPageNumber(), line.getRunId(), cmd.getEditType(),
 				     cmd.getAffectedTextString(), cmd.getTextStringReplacement(),cmd.getTrackData());
         Log.d("", "makeEditCommandUrl: " + url);

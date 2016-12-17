@@ -8,7 +8,7 @@ public class Config {
         return  "10.0.2.2:8088";
     }
 
-    public static int getDocLastEditPageIndex(int docId){
+    public static int getDocLastEditPageIndex(String docId){
         return 0;
     }
 

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 public class EditDocPageActivity extends AppCompatActivity {
 
-    private int _docId = 0;
+    private String _docId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class EditDocPageActivity extends AppCompatActivity {
         try {
 
             Intent intent = getIntent();
-            int docId = intent.getIntExtra(ActivityInteraction.DOC_ID, 1);
+            String docId = intent.getStringExtra(ActivityInteraction.DOC_ID);
             _docId = docId;
             EditPageView editView = new EditPageView(this);
             LinearLayout.LayoutParams lap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

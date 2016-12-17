@@ -21,7 +21,9 @@ public class PreviewDocPageActivity extends AppCompatActivity {
         LinearLayout.LayoutParams lap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         Intent intent = getIntent();
-        int docId = intent.getIntExtra(ActivityInteraction.DOC_ID, 1);
+
+
+        String docId = intent.getStringExtra(ActivityInteraction.DOC_ID);
 
         _editResultPanel = new DocPagePanel(this);
         _editResultPanel.setLayoutParams(lap);

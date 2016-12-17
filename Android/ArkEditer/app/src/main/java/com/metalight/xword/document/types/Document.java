@@ -16,7 +16,7 @@ public abstract class Document {
 	{
 		this.fileName = fileName;
 	}
-	protected int _docId;
+	protected String _docId;
 	//protected int _currentPageIdx = 0;
 
 	@SuppressLint("DefaultLocale")
@@ -48,10 +48,10 @@ public abstract class Document {
 		
 	}
 
-	public void setDocmentId(int docId){
+	public void setDocmentId(String docId){
 		_docId = docId;
 	}
-	public int getDocumentId(){
+	public String getDocumentId(){
 		return _docId;
 	}
 	public abstract boolean loadContents();

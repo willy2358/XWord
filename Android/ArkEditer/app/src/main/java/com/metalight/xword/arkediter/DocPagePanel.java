@@ -25,7 +25,7 @@ public class DocPagePanel extends View {
 
     protected static int PAGE_CACHE_COUNT = 5;
     protected Document_Json document = new Document_Json("");
-    protected int _docId;
+    protected String _docId;
     protected String _getPageDataApiUrl;
     protected int _currentPageIdx = 0;
 
@@ -94,7 +94,7 @@ public class DocPagePanel extends View {
         this.invalidate();
     }
 
-    protected   void fetchDocEditedPagesDataAsync(int docId, int startPageIdx, int endPageIdx) {
+    protected   void fetchDocEditedPagesDataAsync(String docId, int startPageIdx, int endPageIdx) {
         HttpTask task = new HttpTask();
         task.setTaskHandler(new HttpTask.HttpTaskHandler() {
             public void taskSuccessful(String json) {
@@ -119,15 +119,15 @@ public class DocPagePanel extends View {
         fetchDocEditedPagesDataAsync(_docId, startPageIdx, endPageIdx);
     }
 
-    public void setDocId(int docId) {
+    public void setDocId(String docId) {
         this.document.setDocmentId(docId);
         this._docId = docId;
     }
 
     public void setGetPageDataUrl(String url){ this._getPageDataApiUrl = url;}
 
-    private String makeFetchPageDataUrl(int docId, int startPageIdx, int endPageIdx){
-        String url = String.format("%sdocId=%d&startPageIdx=%d&endPageIdx=%d",
+    private String makeFetchPageDataUrl(String docId, int startPageIdx, int endPageIdx){
+        String url = String.format("%sdocId=%s&startPageIdx=%d&endPageIdx=%d",
                _getPageDataApiUrl, docId, startPageIdx, endPageIdx );
 
         return  url;
