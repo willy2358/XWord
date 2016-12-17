@@ -16,6 +16,7 @@ namespace XWordService_MVC.Controllers
     public class UploadDocController : ApiController
     {
         public const string ORIGIN_DOC_PATH = "OriginDocs";
+        public const String DOC_LIST_FILE = "DocList.txt";
         //
         // GET: /UploadCoc/
 
@@ -26,7 +27,11 @@ namespace XWordService_MVC.Controllers
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            string root = System.IO.Path.Combine(DocumentManager.Docs_base_dir, ORIGIN_DOC_PATH);
+            string root = DocumentManager.GetOriginDocsSavePath();
+            if (string.IsNullOrEmpty(root))
+            {
+                return null;
+            }
             var provider = new MultipartFormDataStreamProvider(root);
             try
             {
@@ -50,7 +55,7 @@ namespace XWordService_MVC.Controllers
 
         private void recordLoadedFile(string fileOriginName, string savedFile)
         {
-
+            DocumentManager.SaveUploadedDocumentRecord(fileOriginName, savedFile);
         }
     }
 }

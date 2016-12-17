@@ -45,21 +45,6 @@ namespace XWordService_MVC.Controllers
         // GET api/<controller>/5
         public HttpResponseMessage Get(int docId, int startPageIdx, int endPageIdx)
         {
-            //soox.user.XDocument doc = DocumentManager.GetDocument(docId);
-            //if (null != doc)
-            //{
-            //    List<soox.user.XPage2> pages = doc.GetPages(startPageIdx, endPageIdx);
-            //    string data = "{\"ErrorMsg\":\"OK\",\"DocId\":" + docId.ToString() + ",";
-            //    string json = soox.serialize.JsonSerializer.ToJson<soox.user.XPage2>(pages);
-            //    data += "\"Pages\":" + json + "}";
-            //    //return data += "}";
-            //    HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "application/json") };
-            //    return result;
-            //}
-            //else
-            //{
-            //    return null;
-            //}
             Workspace workspace = DocumentManager.GetDocumentWorkspace(docId);
             if (null != workspace)
             {

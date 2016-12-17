@@ -9,6 +9,29 @@ namespace soox.serialize
 {
     public class JsonSerializer
     {
+        public static string DictToJson(Dictionary<String, String> dict)
+        {
+            string json = "[";
+            foreach (var v in dict)
+            {
+                json += string.Format("\"{0}\":{1},", v.Key, ToJsonValueString(v.Value));
+            }
+            return json.TrimEnd(',') + "]";
+
+        }
+
+        private static string ToJsonValueString(Object value)
+        {
+            if (value is string)
+            {
+                return "\"" + value.ToString() + "\"";
+            }
+            else
+            {
+                return value.ToString();
+            }
+        }
+
         public static string ToJson<ISerializable>(List<ISerializable> objs)
         {
             string json = "[";
@@ -26,7 +49,7 @@ namespace soox.serialize
             return json;
         }
 
-        public static string ToJson(Object Obj)
+        private static string ToJson(Object Obj)
         {
             string json = "{";
             Type t = Obj.GetType();

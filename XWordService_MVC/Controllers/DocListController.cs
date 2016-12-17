@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using XWordService_MVC.Models;
 
 namespace XWordService_MVC.Controllers
 {
@@ -17,6 +18,16 @@ namespace XWordService_MVC.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public HttpResponseMessage Get()
+        {
+            Dictionary<string, string> docs = DocumentManager.GetUploadedDocuments();
+            string data = "{\"ErrorMsg\":\"OK\",\"Docs\":";
+            string json = soox.serialize.JsonSerializer.DictToJson(docs);
+            data += json + "}";
+            HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "application/json") };
+            return result;
         }
 
         //public string Get(int id)
