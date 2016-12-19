@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +30,11 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /*import org.apache.http.HttpResponse;
@@ -44,29 +50,19 @@ public class StartPage extends Activity {
 	public final static String lastEditDoc = "/data/data/t3.txt";
 	
 	public static int openFileDlgId = 0x1100;
-	
+	private ListView listView;
+	private List<Map<String, Object>> mData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start_page);
-		
-//        // ���õ�����ťʱ���ļ��Ի���  
-//		Button btnOpenNew = (Button)findViewById(R.id.btnOpenNewDoc);
-//		
-//		btnOpenNew.setOnClickListener(new OnClickListener()
-//		{
-//			public void onClick(View view)
-//			{
-//				showDialog(openFileDlgId);
-//			}
-//		});
-//		
-////        btnOpenNew.setOnClickListener(new OnClickListener() {  
-////           @Override  
-////            public void onClick(View arg0) {  
-////                showDialog(openfileDialogId);  
-////            }  
-////        }); 
+		//setContentView(R.layout.activity_start_page);
+		//mData = getData();
+//		MyAdapter adapter = new MyAdapter(this);
+//		setListAdapter(adapter);
+
+		listView = new ListView(this);
+		listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1,getData()));
+		setContentView(listView);
 	}
 
 	@Override
@@ -76,6 +72,31 @@ public class StartPage extends Activity {
 		return true;
 	}
 
+//	private List<Map<String, Object>> getData() {
+//		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+//
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("docName", "G1");
+//		map.put("docId", "google 1");
+//		list.add(map);
+//
+//		map = new HashMap<String, Object>();
+//		map.put("docName", "G1");
+//		map.put("docId", "google 1");
+//		list.add(map);
+//
+//		return list;
+//	}
+	private List<String> getData(){
+
+		List<String> data = new ArrayList<String>();
+		data.add("测试数据1");
+		data.add("测试数据2");
+		data.add("测试数据3");
+		data.add("测试数据4");
+
+		return data;
+	}
 	public void OnClickOpenNewDoc(View view)
 	{
 		try {
