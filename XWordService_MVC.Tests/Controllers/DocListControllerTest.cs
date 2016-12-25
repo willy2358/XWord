@@ -10,22 +10,22 @@ namespace XWordService_MVC.Tests.Controllers
     [TestClass]
     public class DocListControllerTest
     {
-        [TestMethod]
-        public void TestGetDocList()
-        {
-            TestGetDocList2();
-        }
+        //[TestMethod]
+        //public void TestGetDocList()
+        //{
+        //    TestGetDocList2();
+        //}
 
-        private async void TestGetDocList2()
-        {
-            DocListController controller = new DocListController();
-            HttpResponseMessage response = controller.Get();
+        //private async void TestGetDocList2()
+        //{
+        //    DocListController controller = new DocListController();
+        //    HttpResponseMessage response = controller.Get();
 
-            string data = await response.Content.ReadAsStringAsync();
-            ////JavaScriptArray array = (JavaScriptArray)JavaScriptConvert.DeserializeObject(context.Request.Form[0]);
+        //    string data = await response.Content.ReadAsStringAsync();
+        //    ////JavaScriptArray array = (JavaScriptArray)JavaScriptConvert.DeserializeObject(context.Request.Form[0]);
 
-            //Assert.IsNotNull(data);
-            string data2 = data;
-        }
+        //    //Assert.IsNotNull(data);
+        //    string data2 = data;
+        //}
     }
 }

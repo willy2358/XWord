@@ -18,9 +18,13 @@ namespace XWordService_MVC.Controllers
         public HttpResponseMessage Get()
         {
             Dictionary<string, string> docs = DocumentManager.GetUploadedDocuments();
-            string data = "{\"ErrorMsg\":\"OK\",\"Docs\":";
-            string json = soox.serialize.JsonSerializer.DictToJson(docs);
-            data += json + "}";
+            string data = "{\"ErrorMsg\":\"OK\",\"Docs\":[";
+            foreach(var v in docs)
+            {
+                //data += string.Format("{\"DocName\":\"{0}\",\"DocId\":\"{1}\"},", v.Key, v.Value);
+                data += "{\"DocName\":" + "\"" + v.Key + "\"," + "\"DocId\":" + "\"" + v.Value + "\"},";
+            }
+            data = data.TrimEnd(',') + "]}";
             HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(data, Encoding.GetEncoding("UTF-8"), "application/json") };
             return result;
         }
