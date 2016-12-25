@@ -10,29 +10,17 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.transport.HttpTransportSE;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.*;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +38,10 @@ public class StartPage extends Activity {
 	public final static String lastEditDoc = "/data/data/t3.txt";
 	
 	public static int openFileDlgId = 0x1100;
-	private ListView listView;
+	private ListView _docListView;
 	private List<Map<String, Object>> mData;
+
+	private List<DocItem> _userDocs = new ArrayList<>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,10 +49,20 @@ public class StartPage extends Activity {
 		//mData = getData();
 //		MyAdapter adapter = new MyAdapter(this);
 //		setListAdapter(adapter);
+		fetchUserDocListAsync();
 
-		listView = new ListView(this);
-		listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1,getData()));
-		setContentView(listView);
+		_docListView = new ListView(this);
+		_docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				DocItem docItem =_userDocs.get(position);
+				if (null != docItem){
+					openDocument(docItem.DocId);
+				}
+			}
+		});
+
+		setContentView(_docListView);
 	}
 
 	@Override
@@ -72,37 +72,23 @@ public class StartPage extends Activity {
 		return true;
 	}
 
-//	private List<Map<String, Object>> getData() {
-//		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("docName", "G1");
-//		map.put("docId", "google 1");
-//		list.add(map);
-//
-//		map = new HashMap<String, Object>();
-//		map.put("docName", "G1");
-//		map.put("docId", "google 1");
-//		list.add(map);
-//
-//		return list;
-//	}
-	private List<String> getData(){
-
-		List<String> data = new ArrayList<String>();
-		data.add("测试数据1");
-		data.add("测试数据2");
-		data.add("测试数据3");
-		data.add("测试数据4");
-
-		return data;
-	}
 	public void OnClickOpenNewDoc(View view)
 	{
 		try {
 
 			Intent intent = new Intent(this, EditDocPageActivity.class);
 			String docId = "BodyPart_7d72e65e-9b83-4b15-a1be-210113f348df";
+			intent.putExtra(ActivityInteraction.DOC_ID, docId);
+			startActivity(intent);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	private void openDocument(String docId){
+		try {
+			Intent intent = new Intent(this, EditDocPageActivity.class);
 			intent.putExtra(ActivityInteraction.DOC_ID, docId);
 			startActivity(intent);
 		}
@@ -165,6 +151,47 @@ public class StartPage extends Activity {
 		return  url;
 	}
 
+	private void loadUesrDocList(JSONArray jsonDocs){
+        for(int i = 0; i < jsonDocs.length(); i++){
+			try {
+				JSONObject jsonDoc  = jsonDocs.getJSONObject(i);
+				DocItem docItem = new DocItem();
+				docItem.DocName = jsonDoc.getString("DocName");
+				docItem.DocId = jsonDoc.getString("DocId");
+				this._userDocs.add(docItem);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		_docListView.setAdapter(new ArrayAdapter<DocItem>(this, android.R.layout.simple_expandable_list_item_1, _userDocs));
+	}
+
+	private  void fetchUserDocListAsync() {
+		HttpTask task = new HttpTask();
+		task.setTaskHandler(new HttpTask.HttpTaskHandler() {
+			public void taskSuccessful(String json) {
+				try {
+					JSONObject jObject = new JSONObject(json);
+					if (0 == jObject.getString("ErrorMsg").compareToIgnoreCase(ErrorCode.ERROR_OK)) {
+						loadUesrDocList(jObject.getJSONArray("Docs"));
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			public void taskFailed() {
+			}
+		});
+
+		task.execute(makeGetUserDocsUrl());
+	}
+
+	private String makeGetUserDocsUrl(){
+		return  String.format("http://%s/api/GetUserDocs",Config.getServerAddress());
+	}
 
 	//@override
 	protected Dialog OnCreateDialog(int id)
